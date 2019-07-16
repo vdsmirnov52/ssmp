@@ -1,0 +1,63 @@
+pre		{font-size: 10px;}
+body		{font-family: sans-serif; font-size: 12px; color: #224;}
+th		{font-family: sans-serif; font-size: 12px; font-weight: bold; background-color: #D3DCE3;}
+td		{font-family: sans-serif; font-size: 12px; padding: 3px;}	/* border-bottom: 1px solid #ccc}*/
+td.crw		{font-family: sans-serif; font-size: 12px; text-align: right; width: 60px; }
+thead		{position: fixed; background-color: #fdd;}
+form		{font-family: sans-serif; font-size: 12px;}
+input		{font-family: sans-serif; font-size: 12px; padding: 4px; border: thin solid #ccc; margin: 1px; border-radius: 5px;}
+input:focus	{border: thin solid #eaa;}
+select		{font-family: sans-serif; font-size: 12px; padding: 0px;}
+textarea	{font-family: sans-serif; font-size: 12px; padding: 0px;}
+h1		{font-family: sans-serif; font-size: large; font-weight: bold;}
+A:link		{font-family: sans-serif; font-size: 12px; text-decoration: none; color: #00d;}
+A:visited	{font-family: sans-serif; font-size: 12px; text-decoration: none; color: #00d;}
+A:hover		{font-family: sans-serif; font-size: 12px; text-decoration: underline; color: #d00;}
+A:link.nav	{font-family: sans-serif;}
+A:visited.nav	{font-family: sans-serif;}
+A:hover.nav	{font-family: sans-serif; color: #d00;}
+/*tr:hover td {background: #eef;	}	/* opacity: 0.7}	*/
+.nav		{font-family: sans-serif;}
+.bgyellow	{background-color: #fff088;}
+.bgblue		{background-color: #e0e0ff;}
+.bggreen	{background-color: #ffe0e0;}
+.bgcalls	{background-color: #ffffd0;}
+.bgbrigs	{background-color: #e0ffe0;}
+.bferr  {font-weight: bold; color: #a11;}
+.bfinf  {font-weight: bold; color: #160;}
+.bfgrey {font-weight: bold; color: #334;}
+.bfligt {font-weight: bold; color: #778;}
+.bfblue {font-weight: bold; color: #11a;}
+.bffff	{font-weight: bold; color: #fff;}
+.ferr   {color: #a11;}
+.finf   {color: #160;}
+.fgrey  {color: #334;}
+.fligt  {color: #778;}
+.ffff	{color: #fff;}
+.sz12   {font-size: 12px;}
+.mark		{background-color: #eef;}
+.line		{cursor: pointer;}
+div.form	{padding: 4px; margin: 2px; border: thin solid #668; background-color: #eef; width: 540px;}
+div.box		{padding: 2px; margin: 2px; border: thin solid #668; background-color: #eef; color: #447;}
+div.tree	{top: 60px; left: 180px; position: absolute; padding: 4px; margin: 4px; min-width: 800px; border: thin solid #668; background-color: #efe;}
+.grey	{padding: 1px; margin: 1px; border: thin solid #668; background-color: #eef; color: #447;}
+.butt	{font-weight: bold; color: #447}
+/*.butt	{padding: 0px; margin: 0px; font-weight: bold; color: #447}	*/
+.hidd	{padding: 0px; margin: 0px; border-style: hidden;}
+.tit	{font-size: 14px; font-weight: bold;}
+.call	{padding: 1px; margin: 1px; border: thin solid #668; background-color: #ffd; color: #224;}
+.tmp	{padding: 1px; margin: 1px; border: thin solid #668; background-color: #fed; color: #224;}
+.green	{padding: 1px; margin: 1px; border: thin solid #676; background-color: #efd; color: #224;}
+.pm00	{padding: 0px; margin: 0px;}
+.mbody	{padding: 1px; margin: 1px; border: thin solid #668; background-color: #fed; color: #224; border-radius: 5px;}
+
+.bgred	{ background-color: #a55; }
+.bggrn	{ background-color: #191; }
+.bggry	{ background-color: #778; }
+.bgblu	{ background-color: #55a; }
+.chmark	{ padding: 5px; border-radius: 10px; font-weight: bold; }
+.cbutt	{ padding: 4px; border: thin solid #ccc; margin: 1px; border-radius: 5px; background-color: #eee; cursor: pointer;}
+
+.omsys	{ padding: 4px; border: thin solid #8c8; margin: 1px; border-radius: 5px; background-color: #efe; cursor: pointer; color: #080; font-weight: bold;}
+.omsno	{ padding: 4px; border: thin solid #c88; margin: 1px; border-radius: 5px; background-color: #fee; cursor: pointer; color: #a00; font-weight: bold;}
+.warning	{ padding: 4px; border: thin solid #ba7; margin: 1px; border-radius: 5px; background-color: #fed; cursor: pointer; color: #844; font-weight: bold;}

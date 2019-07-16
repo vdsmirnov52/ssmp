@@ -1,0 +1,31 @@
+/* SMP NN
+body          {font-family: sans-serif; font-size: small; color: #000000}
+	small -> 11pt
+	<div style="width: 800px">
+*/
+pre, tt       {font-size: 11pt;}
+body          {font-family: sans-serif; font-size: 11pt; color: #000000}
+th            {font-family: sans-serif; font-size: 11pt; font-weight: bold; background-color: #D3DCE3}
+td            {font-family: sans-serif; font-size: 11pt}
+form          {font-family: sans-serif; font-size: 11pt}
+input         {font-family: sans-serif; font-size: 11pt; color: #000000}
+select        {font-family: sans-serif; font-size: 11pt; color: #000000}
+textarea      {font-family: sans-serif; font-size: 11pt; color: #000000}
+h1            {font-family: sans-serif; font-size: large; font-weight: bold}
+A:link        {font-family: sans-serif; font-size: 11pt; text-decoration: none; color: #0000ff}
+A:visited     {font-family: sans-serif; font-size: 11pt; text-decoration: none; color: #0000ff}
+A:hover       {font-family: sans-serif; font-size: 11pt; text-decoration: underline; color: #FF0000}
+A:link.nav    {font-family: sans-serif; color: #000000}
+A:visited.nav {font-family: sans-serif; color: #000000}
+A:hover.nav   {font-family: sans-serif; color: #FF0000}
+.nav          {font-family: sans-serif; color: #000000}
+.bgyellow	{background-color: #fff088}
+.bgblue		{background-color: #e0e0ff}
+.bggreen	{background-color: #ffe0e0}
+.bgcalls	{background-color: #ffffd0}
+.bgbrigs	{background-color: #e0ffe0}
+.bggreys	{background-color: #f0f0f0}
+.mark	{background-color: #fc0; color: #335;}
+.line	{cursor: pointer}
+div.form	{padding: 4; margin: 2; border: thin solid #667; background-color: #eef; width: 540; }
+

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+	<title>03 NN</title>
+	<link rel="stylesheet" href="/js/leaflet/leaflet.css"	crossorigin="" />
+	<link rel="icon" href="/img/favicon.png" type="image/png"/>
+	<script src="/js/leaflet/leaflet.js" crossorigin=""></script>
+	<script src="/js/leaflet/proj4.js"></script>
+	<script src="/js/leaflet/proj4leaflet.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<!--[if lte IE 8]><link rel="stylesheet" href="http://leaflet.cloudmade.com/dist/leaflet.ie.css" /><![endif]-->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script src="http://openweathermap.org/js/leaflet-layer.js"></script>
+	<script src="http://api-maps.yandex.ru/2.0/?load=package.map&lang=ru-RU" type="text/javascript"></script>
+	<script src="/js/layer/tile/Yandex.js"></script>
+	<!-- Chart	
+	<script src="/js/chart/Chart.bundle.js"></script -->
+	<script type='text/javascript' src='/jq/jquery.onajax_answer.js'></script>
+	<script type='text/javascript' src='/jq/jquery.js'></script>
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+	<link rel='stylesheet' type='text/css' href='/css/font-awesome/css/font-awesome.min.css' />
+	<link rel='stylesheet' type='text/css' href='/smp/css/03.css' />
+	<link rel='stylesheet' type='text/css' href='/smp/css/custom.css' />
+	<link rel='stylesheet' type='text/css' href='/smp/css/bootstrap.css' />
+
+	<script type='text/javascript' src='/smp/js/document_ready.js'></script>
+	<script type='text/javascript' src='/smp/js/wsoo_functions.js'></script>
+	<script type='text/javascript' src='/smp/js/func_calls.js'></script>
+	<script type='text/javascript' src='/smp/js/new_call.js'></script>
+	<script type='text/javascript' src='/smp/js/oopy.js'></script>
+
+<script type="text/javascript">
+///////////////////////////////////////////////////
+
+function	config_ts () {	set_shadow('view_ts_config')	}
+
+var visibleBlocks = {};	//	null;
+function showBlock (blockId) {	// Показать/Скрыть блок данных
+//	alert ('ffc_head:' +document.getElementById('ffc_head'));
+	if (! visibleBlocks[blockId])	visibleBlocks[blockId] = 123; 
+	if (visibleBlocks[blockId]) {
+		if (visibleBlocks[blockId] == true) {
+			document.getElementById (blockId).style.display = 'none';
+			visibleBlocks[blockId] = false;
+		} else {
+			document.getElementById (blockId).style.display = 'block';
+			visibleBlocks[blockId] = true;
+		}
+	}
+}
+///////////////////////////////////////////////////
+</script>
+</head>
+<body>
+<form name='myForm' action='http://212.193.103.21/smp/03.html' method='post'>
+	<fieldset class='hidd'>
+		<input name='cod_region' type='hidden' value='' />
+		<input name='disp' type='hidden' value='' />
+		<input name='tkt_number' type='hidden' value='' />
+		<input name='snow_stat' type='hidden' value='' />
+		<input name='snow_flag' type='hidden' value='' />
+	</fieldset>
+
+	
+
+	<div class="main">
+		<div class="col-2 menu">
+			<div class="menu_nav">Меню</div> 
+			<div id='panele' type='hidden' style=''>
+				<div id='menu' style="padding: 4pt; min-height: 200px;"></div>
+				<div class="bfligt" id='last_time' style="padding: 16px; font-size: 16px;" > last_time  </div>
+				<div id='events' style="padding: 4pt; height: 400px overflow: auto;"></div>
+			</div> 
+		</div>
+		<div class="col-10 center">			
+			<div class="menu_nav" style="">				
+				<div id='head_arm bfff' class="col col-2"><div class="p-1" id='last_arm' > &nbsp;&nbsp; last_arm &nbsp;&nbsp; </div> </div>
+				<div id='head_user bfff' class="col col-4"><div class="p-1" id='last_user' > &nbsp;&nbsp; last_user &nbsp;&nbsp; </div> </div>
+				<div id='head_time bfff' class="col col-2"><!--div class="p-1" id='last_time' > &nbsp;&nbsp; last_time &nbsp;&nbsp; </div--> </div>
+				<div class="asbutton bfff col-1" id="SS" onclick="seld2wsoo('seld2wsoo&');"> SS </div>
+				<div id='head_opts' class="col">
+					<div class="asbutton col-1" id="set_opts" onclick="set_shadow ('snow_opts');" title='snow_opts'> 
+						<i class="fa fa-wrench fa-lg" aria-hidden="true"></i> 
+					</div>
+				</div>
+				<div class="asbutton col-1" id="set_opts" onclick="map_init({'height': '800px', 'width': '800px', 'top': '60px', 'left': '60px'}, [56.32354, 43.99121]);" title='snow_opts'> 
+					<i class="fa fa-map-o fa-lg" aria-hidden="true"></i> 
+				</div>
+				<div id='head_CC' class="col col-1">
+					<span id='load_ts' class='asbutton' onclick=" start_ws(); ">
+						<i class="fa fa-refresh fa-lg" aria-hidden="true"></i>
+					</span>
+				</div>			
+			</div>
+			<div class="clear"></div>
+			
+			<div id='mybody' type='hidden' style=''></div> 
+			<div id='calls' type='hidden' style=''></div> 
+			<div id="map" type='hidden' style=''></div>
+			<div id='widget' type='hidden' style=''></div> 
+			<div id='wdg_cc' type='hidden' style=''></div> 
+			<div id='wdg_bc' type='hidden' style=''></div> 
+			<!-- div id='brigs' type='hidden' style=''></div --> 
+			
+			<!--div id='brigs' type='hidden' style='top: 550px; left: 300px; width: 900px; min-height: 200px; border: thin solid #668; background-color: #efe; position: absolute;'></div-->
+			<!-- <div id='log' class='' style="left: 204px; border: thin solid #99a; top: 1000px; position: absolute; z-index: 1100; height: 100px; width: 100%; font-size: 12px; overflow: auto">Log</div> -->
+		</div>
+		<div id="background"></div>
+	</div>
+	
+	</form>
+	
+</body>
+</html>
+
+

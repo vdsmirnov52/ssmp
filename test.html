@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+	<title>03 NN</title>
+	<link rel="stylesheet" href="/js/leaflet/leaflet.css"	crossorigin="" />
+	<link rel="icon" href="/img/favicon.png" type="image/png"/>
+	<script src="/js/leaflet/leaflet.js" crossorigin=""></script>
+	<script src="/js/leaflet/proj4.js"></script>
+	<script src="/js/leaflet/proj4leaflet.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<!--[if lte IE 8]><link rel="stylesheet" href="http://leaflet.cloudmade.com/dist/leaflet.ie.css" /><![endif]-->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script src="http://openweathermap.org/js/leaflet-layer.js"></script>
+	<script src="http://api-maps.yandex.ru/2.0/?load=package.map&lang=ru-RU" type="text/javascript"></script>
+	<script src="/js/layer/tile/Yandex.js"></script>
+	<!-- Chart	
+	<script src="/js/chart/Chart.bundle.js"></script -->
+	<script type='text/javascript' src='/jq/jquery.onajax_answer.js'></script>
+	<script type='text/javascript' src='/jq/jquery.js'></script>
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+	<link rel='stylesheet' type='text/css' href='/css/font-awesome/css/font-awesome.min.css' />
+	<link rel='stylesheet' type='text/css' href='/smp/css/03.css' />
+	<link rel='stylesheet' type='text/css' href='/smp/css/custom.css' />
+<!--
+	<link rel='stylesheet' type='text/css' href='/css/atp.css' />
+	<script type='text/javascript' src='/js/atp/document_ready.js'></script>
+	<script type='text/javascript' src='/js/atp/bymaps.js'></script>
+	<script type='text/javascript' src='/js/atp/ws_functions.js'></script>
+-->
+	<script type='text/javascript' src='/smp/js/document_ready.js'></script>
+	<script type='text/javascript' src='/smp/js/wsoo_functions.js'></script>
+	<script type='text/javascript' src='/smp/js/func_calls.js'></script>
+
+<script type="text/javascript">
+///////////////////////////////////////////////////
+
+function	config_ts () {	set_shadow('view_ts_config')	}
+
+var visibleBlocks = {};	//	null;
+function showBlock (blockId) {	// Показать/Скрыть блок данных
+//	alert ('ffc_head:' +document.getElementById('ffc_head'));
+	if (! visibleBlocks[blockId])	visibleBlocks[blockId] = 123; 
+	if (visibleBlocks[blockId]) {
+		if (visibleBlocks[blockId] == true) {
+			document.getElementById (blockId).style.display = 'none';
+			visibleBlocks[blockId] = false;
+		} else {
+			document.getElementById (blockId).style.display = 'block';
+			visibleBlocks[blockId] = true;
+		}
+	}
+}
+///////////////////////////////////////////////////
+</script>
+</head>
+<body>
+<form name='myForm' action='http://212.193.103.21/smp/03.html' method='post'>
+	<fieldset class='hidd'>
+		<input name='cod_region' type='hidden' value='' />
+		<input name='disp' type='hidden' value='' />
+		<input name='tkt_number' type='hidden' value='' />
+		<input name='snow_stat' type='hidden' value='' />
+		<input name='snow_flag' type='hidden' value='' />
+	</fieldset>
+
+<div class="main">
+		<div class="col-2 menu">
+			<div class="menu_nav">Меню</div> 
+			<div id='panele' type='hidden' style=''></div> 
+		</div>
+		<div class="col-10 center">			
+			<div class='test'>
+		
+				<table style="width:100%;">
+					<thead>
+						<tr>
+							<th>Вызова</th>
+							<th>П/С</th>
+							<th>ФИО</th>
+							<th>Обслуживание</th>
+							<th>Бригады</th>
+							<th>Примечание</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>1 1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr>
+						<tr>
+							<td>2 1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1 1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr>
+						<tr>
+							<td>2 1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1 1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr>
+						<tr>
+							<td>2 1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1 1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr>
+						<tr>
+							<td>2 1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1 1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr>
+						<tr>
+							<td>2 1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr><tr>
+							<td>1076 20В</td>
+							<td>50-ЛЕТИЯ ПОЁЕДЫ д.36</td>
+							<td>6</td>
+							<td>КУКЛЕВ О Е   л.24 М</td>
+							<td>16-19</td>
+							<td>16-54</td>
+							<td>Прибл</td>
+							<td>Исп</td>
+							<td>Закрыть</td>
+							<td>  416Ф</td>
+							<td>+ 94 Решением СВ ОО.</td>
+							<td>3</td>
+						</tr>
+					</tbody>
+				</table>
+			</div> 
+		</div>
+	</div>
+
+
+	
+	<!--div id="map" type='hidden' style="min-width: 300px; min-height: 300px; max-width: 2100px; height: 800px; border: thin solid #779;"></div-->
+	
+	</form>
+	<!--div id='log' class='' style="left: 204px; border: thin solid #99a; top: 1000px; position: absolute; z-index: 1100; height: 100px; width: 100%; font-size: 12px; overflow: auto">Log</div-->
+</body>
+</html>
+
+

@@ -1,0 +1,43 @@
+<!DOCTYPE html >
+<html lang="en">
+<head> <meta name='Author' content='V.Smirnov' /><title>03 регистрация</title>
+<meta name='viewport' content='width=device-width, initial-scale=0.9, minimum-scale=0.8' charset="UTF-8" />
+	<link rel='stylesheet' type='text/css' href='/smp/css/03.css' />
+	<script type='text/javascript' src='/jq/jquery.onajax_answer.js'></script>
+	<script type='text/javascript' src='/jq/jquery.js'></script>
+	<script type='text/javascript' src='/smp/js/03py.js'></script>
+	<script type='text/javascript' src='/smp/js/new_call.js'></script>
+	<script type='text/javascript' src='/smp/js/tree.js'></script>
+<script type='text/javascript'>
+function	set_shstat (shstat) {	$.ajax({data: 'stat='+ shstat +'&' +$('form').serialize()});	}
+/*
+$(document).ready(function () {
+	document.mainForm.screen.value = window.screen.width +"x"+ window.screen.height;
+	$('#shadow').html ("Экран: " +document.mainForm.screen.value);	//window.screen.width +"x"+ window.screen.height);
+	})
+*/
+	</script> </head>
+<body><center>
+<form name='mainForm' action='http://212.193.103.21/smp/login.html' method='post'>
+<fieldset class='hidd'>
+		<input type='hidden' name='stat' value='' />
+		<input type='hidden' name='cpoint' value='' />
+		<input type='hidden' name='screen' value='' />
+		</fieldset>
+<div class='box' style='background-color: #ff8; text-align: center; padding: 10px; margin: 10px; width: 440px;'><big><b>Оперативный отдел Нижегородской ССМП</b></big><hr width='90%' />
+		<b>GSSMP</b> Версия: 4.0 &nbsp; г.Нижний Новгород &copy; 2013 </div>
+<center><div class='form' style='padding: 8px; margin: 4px; border: solid; border-width: 1px; width: 400px;'> <table>
+		<tr><td align=right>Код:</td>		<td><input name='disp' type='text' maxlength=5 id='us_disp' size=5 value='' /></td></tr>
+		<tr><td align=right>Имя:</td>		<td><input name='login' type='text' maxlength=15 id='us_login' value='' /></td></tr>
+		<tr><td align=right>Пароль:</td>	<td><input name='passwd' type='password' maxlength=15 id='us_passwd' value='' /></td></tr></table>
+		<input type='submit' id='id_check_user' value='Регистрация' onclick='set_shstat ("us_ident");' />
+		<input type='submit' id='id_check_user' value='Exit' onclick='set_shstat ("exit");' />
+		<div id='rez_authorize'>Введите код пользователя.</div>
+		</div></center>
+<div id='shadow'>shadow</div>
+</form>
+<div id='shreslt'>shreslt</div>
+<div id='message'>message</div>
+<div id='debug'>debug</div>
+</center></body></html>
+

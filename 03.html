@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+	<title>03 NN</title>
+	<link rel="stylesheet" href="/js/leaflet/leaflet.css"	crossorigin="" />
+	<link rel="icon" href="/img/favicon.png" type="image/png"/>
+	<script src="/js/leaflet/leaflet.js" crossorigin=""></script>
+	<script src="/js/leaflet/proj4.js"></script>
+	<script src="/js/leaflet/proj4leaflet.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<!--[if lte IE 8]><link rel="stylesheet" href="http://leaflet.cloudmade.com/dist/leaflet.ie.css" /><![endif]-->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script src="http://openweathermap.org/js/leaflet-layer.js"></script>
+	<script src="http://api-maps.yandex.ru/2.0/?load=package.map&lang=ru-RU" type="text/javascript"></script>
+	<script src="/js/layer/tile/Yandex.js"></script>
+	<!-- Chart	
+	<script src="/js/chart/Chart.bundle.js"></script -->
+	<script type='text/javascript' src='/jq/jquery.onajax_answer.js'></script>
+	<script type='text/javascript' src='/jq/jquery.js'></script>
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+	<link rel='stylesheet' type='text/css' href='/css/font-awesome/css/font-awesome.min.css' />
+	<link rel='stylesheet' type='text/css' href='/smp/css/03.css' />
+<!--
+	<link rel='stylesheet' type='text/css' href='/css/atp.css' />
+	<script type='text/javascript' src='/js/atp/document_ready.js'></script>
+	<script type='text/javascript' src='/js/atp/bymaps.js'></script>
+	<script type='text/javascript' src='/js/atp/ws_functions.js'></script>
+-->
+	<script type='text/javascript' src='/smp/js/document_ready.js'></script>
+	<script type='text/javascript' src='/smp/js/wsoo_functions.js'></script>
+	<script type='text/javascript' src='/smp/js/func_calls.js'></script>
+	<script type='text/javascript' src='/smp/js/new_call.js'></script>
+	<script type='text/javascript' src='/smp/js/oopy.js'></script>
+
+<script type="text/javascript">
+///////////////////////////////////////////////////
+
+function	config_ts () {	set_shadow('view_ts_config')	}
+
+var visibleBlocks = {};	//	null;
+function showBlock (blockId) {	// Показать/Скрыть блок данных
+//	alert ('ffc_head:' +document.getElementById('ffc_head'));
+	if (! visibleBlocks[blockId])	visibleBlocks[blockId] = 123; 
+	if (visibleBlocks[blockId]) {
+		if (visibleBlocks[blockId] == true) {
+			document.getElementById (blockId).style.display = 'none';
+			visibleBlocks[blockId] = false;
+		} else {
+			document.getElementById (blockId).style.display = 'block';
+			visibleBlocks[blockId] = true;
+		}
+	}
+}
+function fix_mouse (e) {
+var	X = e.clientX,
+	Y = e.clientY,
+	W = e.which;	/// какая кнопка мыши вызвала событие (1 - левая, 2 - средняя, 3 - правая)
+	alert ('fix_mouse: X:'+ X +' Y:'+ Y +' W:' +W);
+}
+///////////////////////////////////////////////////
+</script>
+</head>
+<body>
+<form name='myForm' action='http://212.193.103.21/smp/03.html' method='post'>
+	<fieldset class='hidd'>
+	<!--input id='view_gosnum' name='view_gosnum' type='hidden' value='off' />
+	<input id='view_trace' name='view_trace' type='hidden' value='off' />
+	<input id='view_routes' name='view_routes' type='hidden' value='off' /-->
+	<input name='disp' type='hidden' value='' />
+	<input name='cod_region' type='hidden' value='' />
+	<input name='tkt_number' type='hidden' value='' />
+	<input name='snow_stat' type='hidden' value='' />
+	<input name='snow_flag' type='hidden' value='' />
+	</fieldset>
+
+	<div id="container">
+	<div class="container-fluid">
+	<div class="row" style="background-color:#2f75a9; padding: 3px; color: #fff; text-align: center;">
+		<div id='head_menu' class="col">
+			<div id='view_menu' class='asbutton' onclick="set_shadow ('view_menu');"><i class="fa fa-list-ul fa-lg" aria-hidden="true"></i>
+				<span class="button-text">Меню</span>
+			</div>
+		</div>
+		<!--div id='head_AA' class="col">
+			<div id='view_gz' class='asbutton' onclick="set_shadow ('view_gzones');"><i class="fa fa-object-ungroup fa-lg" aria-hidden="true"></i>
+					<span class="button-text">Зоны обслуживания</span> 
+			</div>
+		</div-->
+		<div id='head_arm bfff' class="col"><div class="p-1" id='last_arm' > &nbsp;&nbsp; last_arm &nbsp;&nbsp; </div> </div>
+		<div id='head_user bfff' class="col"><div class="p-1" id='last_user' > &nbsp;&nbsp; last_user &nbsp;&nbsp; </div> </div>
+		<div id='head_time bfff' class="col"><!--div class="p-1" id='last_time' > &nbsp;&nbsp; last_time &nbsp;&nbsp; </div--> </div>
+		<div class="asbutton bfff" id="SS" onclick="seld2wsoo('seld2wsoo&');"> SS </div>
+		<div id='head_opts' class="col">
+		<div class="asbutton" id="set_opts" onclick="set_shadow ('snow_opts');" title='snow_opts'> <i class="fa fa-wrench fa-lg" aria-hidden="true"></i> </div>
+		</div>
+		<div class="asbutton" id="set_opts" onclick="map_init({'height': '800px', 'width': '800px', 'top': '60px', 'left': '60px'}, [56.32354, 43.99121]);" title='snow_opts'> <i class="fa fa-map-o fa-lg" aria-hidden="true"></i> </div>
+		<div id='head_CC' class="col">
+			<span id='load_ts' class='asbutton' onclick=" start_ws(); ">
+				<i class="fa fa-refresh fa-lg" aria-hidden="true"></i>
+			</span>
+		</div>
+	</div>
+	</div>
+
+	<div id='panele' type='hidden' style='top: 38px; left: 2px; width: 200px; background-color: #eef; min-height: 800px; position: absolute; overflow: auto; z-index: 100; border: thin solid #99a;'>
+	<div id='menu' style="padding: 4pt; min-height: 200px;">menu	</div>
+	<div class="bfligt" id='last_time' style="padding: 16px; font-size: 16px;" > last_time  </div>
+	<div id='events' style="padding: 4pt; min-height: 300px;">events	</div>
+	<!--div id='panrem' style="padding: 4pt; min-height: 100px;">panrem	</div-->
+	</div> 
+	<div id='mybody' type='hidden' style='top: 38px; left: 204px; min-width: 900px; background-color: #fff; min-height: 800px; position: absolute; overflow: auto; z-index: 100'></div> 
+	<!--div id="map" type='hidden' style="min-width: 300px; min-height: 300px; max-width: 2100px; height: 800px; border: thin solid #779;"></div-->
+	<div id="map" type='hidden'></div>
+	<div id='widget' type='hidden' style=''></div> 
+	<div id="background"></div>
+	</div>	<!-- container	-->
+
+	<div id='wdg_cc' type='hidden' style=''></div> 
+	<div id='wdg_bc' type='hidden' style=''></div> 
+	<div id='calls' type='hidden' style='top: 60px; left: 300px; width: 900px; min-height: 400px; border: thin solid #668; background-color: #ffe; position: absolute;'></div> 
+	<div id='brigs' type='hidden' style='top: 550px; left: 300px; width: 900px; min-height: 200px; border: thin solid #668; background-color: #efe; position: absolute;'></div>
+	</form>
+	<div id='log' class='' style="left: 204px; border: thin solid #99a; top: 1000px; position: absolute; z-index: 1100; height: 100px; width: 100%; font-size: 12px; overflow: auto">Log</div>
+</body>
+</html>
+
+
