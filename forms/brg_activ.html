@@ -1,0 +1,55 @@
+<div id='brg_form' type='hidden' style='top: 500px; left: 400px; width: 800px; min-height: 300px; border: thin solid #668; background-color: #efe; position: absolute; z-index: 1112'>
+
+<div id="head_cbrg" style="width: 100%; background-color: #160; color: #fff; font-size: 14px; font-weight: bold;"><table width=100%><tr>
+<td><span style='font-size: 14px;'>&nbsp; {{ img }} </span></td><td align='center'><span style='font-size: 14px;'> {{ title }}  </span></td>
+<td align='right'></td>
+<td align='right'></td>
+<td align='right'><i class="fa fa-print fa-lg" title="Печать" ></i></td>
+<td align='right'><i class="fa fa-window-restore fa-lg" ></i></td>
+<!--td align='right'><i class="fa fa-times-circle-o fa-lg" ></i></td-->
+<td align='right'><span onclick="$('#wdg_bc').css({'z-index': null}).html('');"><img src="img/error24.png"></span></td>
+</tr></table></div>	<!-- head_call	-->
+
+<div>
+<table cellpadding=0 cellspacing=0 border=0 width=100%>
+<tr valign=top><td width=56%><table width=100% cellpadding=0 cellspacing=0 border=1><tr><td>
+	<table width=100%>
+	<tr valign=top><td align=right width=100px>Бригада: </td> <td><b>512 Ф </b> &nbsp; п/с: <b> {{ subst }}</b></td></tr>
+	<tr valign=top><td align=right>Врач:</td><td><span class="line" onclick="alert('set_doctor')" ><b> {{ doctor }} </b></td></tr>
+	<tr valign=top><td align=right>Машина: </td> <td><b> {{ auto}} </b> &nbsp; водитель: <b> {{ driver }} </b>  </td></tr>
+	<tr valign=top><td align=right>Адрес: </td> <td><b> {{ addres }} </b>
+	</td></tr>
+	</table>
+</td></tr></table></td><td><table width=100% cellpadding=0 cellspacing=0 border=1><tr><td>
+	<table width=100%>
+	<tr valign=top><td align=right width=100px>N смены: </td><td><b> {{ smena }} </b> &nbsp; [ <b> {{ tm_beg }} </b>-<b> {{ tm_end }} </b> ]</td></tr>
+	<tr valign=top><td align=right width=100px>Статус: </td> <td><b> {{ bstat }} </b> &nbsp; [ <b> {{ stm_beg }} </b>-<b> {{ stm_end }} </b> ]</td></tr>
+	<tr valign=top><td align=right>Выполнено: </td><td><b> {{ ncall }}</b> &nbsp; время: <b> {{ tm_work }} </b> мин</td></tr>
+	<tr valign=top><td align=right>В работе: </td><td><b> {{ scall }} </b></td></tr>
+	</table>
+</td></tr></table>
+<!--
+&nbsp;&nbsp;<a href="javascript:if (opener) opener.document.mainForm.submit();self.close ()"><big><b>Отложить</b></big> (закрыть окно)</a>
+-->
+</td></tr>
+</table>
+{{ query }}
+<!--b>&nbsp;За бригадой {{ ncall }} вызова</b-->
+<div id="brg_4exec" class='call' style="max-height: 100px; overflow: auto;">
+<table id="tbrg_4exec"  border=0 align=CENTER  cellspacing=0 cellpadding=02 width=100%>
+<tr bgcolor=#e0e0ff><th width=100px>N&nbsp;выз</th><th width=60px>Повд</th><th width=60px>Принят</th><th width=60px>Пердн</th><th width=60px>Прибл</th><th width=60px>Исплн</th><th width=60px>Закрыт</th><th>Улица</th></tr>
+{{ c_activ }}
+</table>
+</div>	<!-- brg_4exec	-->
+&nbsp; <b>Архив закрытых вызовов</b>
+<div id="brg_arch" class='call' style="max-height: 100px; overflow: auto;">
+<table id='tbrg_arch' border=0 align=CENTER  cellspacing=0 cellpadding=02 width=100%>
+<tr bgcolor=#e0e0ff><th width=100px>N&nbsp;выз</th><th width=60px>Повд</th><th width=60px>Принят</th><th width=60px>Пердн</th><th width=60px>Прибл</th><th width=60px>Исплн</th><th width=60px>Закрыт</th>
+	<th>Улица</th><th>ОМС</th></tr>
+{{ c_arch }}
+</table>
+</div>	<!-- brg_arch	-->
+</div>
+</div>
+</div>	<!-- body_cbrg	-->
+</div>	<!-- brg_activ	-->

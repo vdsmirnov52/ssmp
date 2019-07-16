@@ -1,0 +1,151 @@
+<div id='call_form' type='hidden' style='top: 40px; left: 180px; width: 900px; border: thin solid #668; background-color: #ffe; position: absolute; z-index: 1112'>
+<fildset class='hidd'>
+<input type='hidden' name='reasn' value=''>
+<!--input type='hidden' name='profile' value=''-->
+<input type='hidden' name='stat' value=''>
+<input type='hidden' name='stack' value=''>
+<input type='hidden' name='sector' value=''>
+<input type='hidden' name='street_id' value=''>
+{% if GET_CALL %}
+<input type='hidden' name='tkt_number' value={{tkt_number}}>
+{% endif %}
+</fildset>
+{% if is_arch %}
+	<div id='head_call' style='background-color: #777; color: #eef; padding: 4px;'><table width=100%><tr>
+{% else %}
+	<div id='head_call' style='background-color: #27a; color: #eef; padding: 4px;'><table width=100%><tr>
+{% endif %}
+{% if GET_CALL %}
+	<td><span class='chmark bgred'>  Новый Вызов &nbsp; {{ t_call }} &nbsp; {{ reasn }} {{ icon }}  &nbsp; </span></td>
+{% else %}
+	<td><span class='chmark bggry'>  {{ number }} &nbsp; {{ t_get }} &nbsp; {{ reasn }} {{ icon }}  &nbsp; </span></td>
+{% endif %}
+<!--td align='center'>is_arch {{ is_arch }}</td-->
+<td align='right'></td>
+<td align='right'><i class="fa fa-print fa-lg" title="Печать" ></i></td>
+<td align='right'><i class="fa fa-window-restore fa-lg" ></i></td>
+<!--td align='right'><i class="fa fa-times-circle-o fa-lg" ></i></td-->
+<td align='right'><span onclick="$('#calls').css({'z-index': null}).html('');"><img src="img/error24.png"></span></td>
+</tr></table></div>	<!-- head_call	-->
+
+<div id='reasn' class='call' style='background-color: #fff0aa;'><table width=100%>
+	<tr><td >Повод: <span class='tit' onclick=" set_shadow ('tree_alert&cnum_total={{cnum_total}}'); ">{{ reasn }}</span></a></td>
+	<!--tr><td >Повод: <a onclick='change_reasn (); return false;' href=''><span class='tit'>{{ reasn }}</span></a></td-->
+	<td>{{ reasn_rem }}<!--input type='text' name='rem_reasn' value='' size='25' maxlength='32'  /--></td>
+	<td>Место:	<b>{{ place }}</b>	</td><tr>
+	</table></div>	<!-- reasn	-->
+
+<div id='body_call' class='call' style='min-height: 300px;'><table width='100%' cellpadding='0' cellspacing='0'>
+<tr valign='top'><td>
+	<div id='addres' class='call' style="min-width: 640px;"><table width='100%' border=0>
+		<tr><td class='crw'> Улица:</td><td>
+			<b>{{street}}</b>
+			Дом:<b>{{house}}</b>
+			Корп.:<b>{{korp}}</b>
+		<tr><td class='crw'> 
+			Кв.:</td><td><b>{{flat}}</b>
+			Пд.:<b>{{pdzd}}</b>
+			Эт.:<b>{{etj}}</b>
+			Код:<b>{{pcod}}</b>
+			Тл.:<b>{{phone}}</b>
+		</table></div>	<!-- addres	-->
+	<div id='pacient' class='call'><table width='100%'>
+		<tr><td class='crw'> Фамил:</td><td colspan='3'><b>{{name}}</b> И.О.:<b>{{name2}}</b> &nbsp; Лет:<b>{{age}}</b> &nbsp; Пол:<b>{{sex}}</b> </td></tr>
+		<tr valign='top'><td align='right'> Кто:</td><td> <b>{{ kto	}}</b> </td>
+			<td width=340px><b> {{ message_text }}	</b></td>
+			<td></td></tr>
+		</table></div>	<!-- pacient	-->
+
+
+{% if BSTT_SERVS %}
+<!--	[Правка]	[Дубль]	[Вызвать бригаду на себя]	[Повторное обслуживание]	-->
+	<div class='head_call' style='background-color: #48a; color: #eef; padding: 2px;' ><table ><tr><td width=18%>
+	<!--div class='call_form head_call' style='background-color: #686; color: #eef; padding: 2px;' ><table ><tr><td width=50%-->
+	{{ BSTT_SERVS }}
+	</td></tr></table></div>
+{% endif %}
+
+{% if is_reslt %}	#t_done %}
+<div id='creslt' class='call'><table width='100%'>
+	<tr><td class='crw'> Резулт.:</td><td><b>	{{ reslt }}	</b></td></tr>
+	<tr><td class='crw'> DS:</td><td><b>	{{ diagn }}	</b></td></tr>
+	<tr><td class='crw'> Осл.:</td><td><b>	{{ ds_plus }}	</b></td></tr>
+	<tr><td class='crw'> Текст:</td><td><b>	{{ diat }}	</b></td></tr>
+	<tr><td class='crw'> Куда:</td><td><b>	{{ kuda }}	</b></td></tr>
+	<!--tr><td class='crw'> CLOS </td><td><b>	{{ ZZZ }}	</b></td></tr-->
+	</table></div>	<!-- creslt	-->
+{% endif %}
+
+</td><td>
+<div id='cwork' class='call' style="width: 240px;" ><table width='100%'>
+	<!--tr><td align='right'> &nbsp;Сект.:</td><td><input type='text' name='sector' value='' size='2' maxlength='3'  /><span id='rem_sect' class='butt'>rem_sect</span> </td></tr-->
+	<!--tr><td align='right'> Номер:</td><td>  {{ number }}       </td></tr-->
+	<tr><td width='50px' align='right'> Номер:</td><td>  <b><b>{{ cnum_total }}</b></b> <b>{{ d_get }}</b>      </td></tr>
+	<tr><td width='50px' align='right'> Проф.:</td><td>	<b>{{ pbrg	}}</b>	 </td></tr>
+	<tr><td width='50px' align='right'> П/С:</td><td>	<b>{{ subst }}</b>	</td></tr>
+	<tr><td width='50px' align='right'> Принят:</td><td>	<b>{{ t_get }}</b> <b>{{ g_disp }}</b>	</td></tr>
+{% if t_send %}
+	<tr><td width='50px' align='right'> Передн:</td><td>	<b>{{ t_send }}</b> <b>{{ s_disp }}</b>	</td></tr>
+	<tr><td width='50px' align='right'> Прибыл:</td><td>	<b>{{ t_arrl }}</b> <b>{{ a_disp }}</b>	</td></tr>
+	<tr><td width='50px' align='right'> Исполн:</td><td>	<b>{{ t_done }}</b> <b>{{ d_disp }}</b>	</td></tr>
+	{% if tm_hosp %}
+	<tr><td width='50px' align='right'> Госптл:</td><td> <b>{{ tm_hosp }}</b> <b>{{ disp_hosp }}</b>       </td></tr>
+	<tr><td width='50px' align='right'> Исполн:</td><td>	<b>{{ t_done }}</b> <b>{{ d_disp }}</b>	</td></tr>
+	{% endif %}
+	{% if t_close %}
+	<tr><td width='50px' align='right'> Закрыт:</td><td>	<b>{{ t_close }}</b> <b>{{ c_disp }}</b>	</td></tr>
+	{% endif %}
+{% endif %}
+	</table></div>	<!-- cwork	-->
+
+<div id='brig_ref' class='call' style="width: 240px;" ><table width='100%'>
+	<tr><td width='50px' align=right> Бриг.:</td>
+{% if nbrg %}
+		<td><b> {{ br_ref }} </b> &nbsp; ж.П/С:<span class='bfinf'>&nbsp;<b>{{ ps }}</b></span> </td></tr>
+	<tr><td align=right valign=top> Врач:</td><td><b> {{ doctor }} </b> </td></tr>
+{% else %}
+	{% if not GET_CALL %}
+		<td> <span id='brg_label' class='cbutt' > &nbsp; &nbsp; &nbsp; &nbsp; </span>
+		<input name='set_bnumber' type='text' value='' size=3>
+		<input name='set_br_ref' type='hidden' value='' />
+			</td></tr>
+	<tr><td>&nbsp;</td><td> <input type='button' class='butt' value='Назначить бригаду' onclick="{{set_brigad}}" /> </td></tr>
+	{% else %}
+		<td> &nbsp; </td></tr>
+	{% endif %}
+{% endif %}
+	</table></div>	<!-- brig_ref	-->
+	{{ SAVE }}
+{% if is_reslt %}
+	{{ CLOSE }}
+{% endif %}
+</td></tr></table>
+
+{% if SET_BRIGS %}
+<div id='SET_BRIGS' class='call' style="width: 100%; background-color: #fff;" >
+	{{ SET_BRIGS }}	
+</div>	<!-- SET_BRIGS	-->
+{% endif %}
+
+{% if CALL_CLOSE %}
+<div id='CLOSE' class='call' style="width: 100%; background-color: #fff;" >
+	{{ CALL_CLOSE }}
+	<table width='100%'>
+	<tr><td align='right'> Пациент:	</td><td> <input name='family' type='text' value='{{faml}}' size=16 />	<input name='family' type='text' value='{{fname}}'  size=12 /> <input name='family' type='text' value='{{oname}}' size=12 />
+	&nbsp;	г.р.<input name='myar' type='text' value='{{myar}}' size=8 /> &nbsp;	пол: <input name='msex' type='text' value='{{msex}}' size=1 />
+		</td></tr>
+	<tr><td align='right'> Мед.Полис:	</td><td> <input name='mpolis' type='text' value=''  size=16 /> &nbsp; Снилс: <input name='psnils' type='text' value='{{psnils}}'  size=12 /> </td></tr>
+	<tr><td align='right'> Бригада:	</td><td> <input name='sdoctor' type='text' value='{{doctor}}'  size=16 /> &nbsp; Снилс: <input name='dsnils' type='text' value='{{dsnils}}'  size=12 /></td></tr>
+	<tr><td align='right'> МКБ-10: </td><td><input name='mkb_cod' type='text' size=3 maxlength=4 value=''> <select name='mkb_ds' onchange="document.myForm.mkb_cod.value = document.myForm.mkb_ds.value;"><option value=''>  </option> {{mkb_ds}}  </select> 	</td></tr>
+	<tr><td align='right'> Классы: </td><td><select name='mkb_class'><option value=''>  </option> {{mkb_class}}	</select></td></tr>
+	</table>
+</div>	<!-- CLOSE	-->
+{% else %}
+	{{ CALL_WAR }}
+{% endif %}
+<div id='RESULT'>
+	RESULT: {{ nbrg }} {{ cnum_total }}
+</div>
+</div>	<!-- body_call	-->
+
+</div>	<!-- call_form	-->
