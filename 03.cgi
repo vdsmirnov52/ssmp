@@ -156,8 +156,12 @@ def	check ():
 				if shstat == 'brg_activ':	brigs.brg_activ (SS, request)
 				
 			elif shstat == 'KuKu':		# DEBUD
+				import	f110u
+				f110u.out_form (SS, request)
+				'''
 			#	import	user_03
 				user_03.out_KuKu (SS, request)
+				'''
 			elif shstat == 'exit':
 				print """~eval| $('#widget').html(''); $('#last_user').html(''); $('#last_arm').html(''); document.myForm.disp.value='';
 				"""

@@ -10,6 +10,14 @@ def	sdtime (tm, frmt = "%H:%M"):
 	if tm < 777777777:	tm += BTIMER
 	return	time.strftime(frmt, time.localtime(tm))
 
+def	sdater (tm):
+	mon = ['января', 'февраля', 'марта', 'апреля', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря',]
+	if not tm:      ""
+	if tm < 777777777:      tm += BTIMER
+	tm_year, tm_mon, tm_mday = time.localtime(tm)[:3]
+	if tm_mon > 0:  tm_mon -= 1
+	return  "%s %s %s" % (tm_mday, mon[tm_mon], tm_year)
+
 def	sval (obj, nm):
 	val = obj.get(nm)
 	if val:	return	str(val)

@@ -114,7 +114,7 @@ def	sselect (dboo, dctt, kval = ''):
 
 def	svals (dboo, dctt, kval, vals = None):
 	"""
-	vals = [vn1, vn2, ...] наименвание полее и их последовательность в строке результата
+	vals = [vn1, vn2, ...] наименвание полей и их последовательность в строке результата
 	"""
 	if not kval:	return	"--"
 	try:
@@ -136,3 +136,7 @@ def	sdtime (tm, frmt = "%H:%M"):
 	if tm < 777777777:	tm += BTIMER
 	return	time.strftime(frmt, time.localtime(tm))
 '''
+if __name__ == '__main__':
+	import dbtools
+	dboo = dbtools.dbtools ('host=localhost dbname=b03 port=5432 user=vds')
+	print sselect (dboo, {'tab': "j_registr", 'key': 'cod', 'val': 'name', 'sname': "sel_name", 'on': "onselect=alert('zzz')", 'knull': '', 'rvals': ['cod', 'name'] })
