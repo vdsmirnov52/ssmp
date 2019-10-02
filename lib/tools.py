@@ -35,11 +35,19 @@ def	ref2brg (dboo, br_ref, cstt = None):
 		
 	except:	return	''
 
-def	sel_smen (dboo, son = None, cs = None):
-	if not cs:	cs = curr_smena (dboo)
+def	sel_smen (dboo, son = None, cs = None, fs = None):
+#	if not cs:	cs = curr_smena (dboo)
 	if not son:	son = ''
-	print 
+#	print 
 	ss = ["<select name='sel_smen' %s>" % son]
+	if fs:
+		if not cs:
+			ss.append ("<option value='' selected>  </option>")
+			cs = '0'
+		else:
+			ss.append ("<option value='' >  </option>")
+	else:	cs = curr_smena (dboo)
+
 	for j in xrange(4):
 		ns = 1 + j
 		if cs and ns == int (cs):
@@ -127,16 +135,36 @@ def	svals (dboo, dctt, kval, vals = None):
 				ccc.append (str(drow[v]))
 			return " ".join(ccc)
 		return	str(drow[dctt['val']])
-	except:	return	"<span class='bferr'>Not (%s %s)</span>"	%(dctt['tab'], kval)
-'''	global_vals.py
-BTIMER = 900000000
+	except:	return	"<span class='bferr'>Not (%s %s)</span>" % (dctt['tab'], kval)
 
-def	sdtime (tm, frmt = "%H:%M"):
-	if not tm:	return	"--:--"
-	if tm < 777777777:	tm += BTIMER
-	return	time.strftime(frmt, time.localtime(tm))
-'''
+def	scheckboxes (dboo, dctt, iname = None, set_keys = None):
+	"""
+	iname 	- input name= <iname_key'>
+	skeys	- [k1, k2, ... ] список выбранных значение ключей
+	"""
+	try:
+		query = "SELECT * FROM %s" % (dctt['tab'])
+		rows = dboo.get_rows (query)
+		d = dboo.desc
+	#	print query, d
+		if not iname:	iname = dctt['tab']
+		if not (set_keys and type(set_keys) == list):	set_keys = []
+		ss = []
+		for r in rows:
+			key = r[d.index(dctt['key'])]
+			if key in set_keys:	scheck = 'checked'
+			else:	scheck = ''
+			ss.append("<label><input type='checkbox' name='%s_%s' %s /> %s </label>" % (iname, key, scheck, r[d.index(dctt['val'])]))
+		return	";\n".join(ss)
+	except: return	"<span class='bferr'>Not %s </span>" % dctt
+	
+
 if __name__ == '__main__':
 	import dbtools
+	print "#"*22
 	dboo = dbtools.dbtools ('host=localhost dbname=b03 port=5432 user=vds')
+	print	scheckboxes (dboo, {'tab': 'j_registr', 'key': 'cod', 'val': 'name', })	#, iname='ZZ')	#, set_keys=[2,4])
+	'''
+	print svals (dboo, {'tab': 'vperson_sp', 'key': 'cod', 'val': 'name, post_name', 'rvals': ['cod', 'name', 'post_name']},  6533)
 	print sselect (dboo, {'tab': "j_registr", 'key': 'cod', 'val': 'name', 'sname': "sel_name", 'on': "onselect=alert('zzz')", 'knull': '', 'rvals': ['cod', 'name'] })
+	'''

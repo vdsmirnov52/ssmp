@@ -275,7 +275,7 @@ html,body, .main{
 #fbrigs_head select ,
 #fcalls_head.call select{
 	margin-left:10px;
-	width:180px;
+	max-width:180px;
 }
 
 #head_call .chmark{

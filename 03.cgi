@@ -119,6 +119,10 @@ def	check ():
 				elif shstat == 'GET_CALL':	# Принять Вызов
 					calls.get_call (US_ROW, request)
 				else:	calls.calls_list (SS, request)
+			elif shstat in ['ACCESS_NSI', 'USERS', 'AUTOS', 'POLIT']:
+				import	nsi_tools as nsi
+				nsi.main(SS, request)
+				
 				'''
 			elif shstat == 'find_calls':	calls.calls_list (US_ROW, request)
 				'''

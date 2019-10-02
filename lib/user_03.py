@@ -114,10 +114,21 @@ def	out_menu (US_ROW, request):
 			if not r[d.index('ordr')]:	continue 
 			lout.append ("""<li class="bfligt line" onclick="$('#wdg_bc').html(''); $('#wdg_bc').html(''); $('#calls').html(''); $('#calls').html(''); set_shadow('%s');"> %s </li>""" % (r[d.index('ch_id')], r[d.index('name')]))
 #	lout.append ("""<li class="bfligt line" onclick="$('#menu').html(''); set_shadow('exit');"> Exit </li></div>""")
+	# Доступ к НСИ
+	if US_ROW.get('utype') == 1 or US_ROW.get('ch_id') in  ['SYS_ADM', 'ZAV_PS']:
+		lout.append ("""<li class="bfligt line" onclick="$('#wdg_bc').html(''); $('#wdg_bc').html(''); $('#calls').html(''); $('#calls').html(''); set_shadow('%s');"> &bull; %s </li>""" % ("ACCESS_NSI", "Доступ к НСИ"))
+		'''
+		lout.append ("""<li class="bfligt"> Доступ к НСИ: </li>""")	#str(US_ROW))
+		'''
+		lout.append ("""<li class="bfligt line" onclick="$('#wdg_bc').html(''); $('#wdg_bc').html(''); $('#calls').html(''); $('#calls').html(''); set_shadow('%s');"> &bull; %s </li>""" % ("USERS", "Сотрудники СМП"))
+		lout.append ("""<li class="bfligt line" onclick="$('#wdg_bc').html(''); $('#wdg_bc').html(''); $('#calls').html(''); $('#calls').html(''); set_shadow('%s');"> &bull; %s </li>""" % ("AUTOS", "Транспорт СМП"))
+		lout.append ("""<li class="bfligt line" onclick="$('#wdg_bc').html(''); $('#wdg_bc').html(''); $('#calls').html(''); $('#calls').html(''); set_shadow('%s');"> &bull; %s </li>""" % ("POLIT", "Права и Роли "))
 	lout.append ("""<li class="bfligt line" onclick="$('#menu').html(''); document.myForm.disp.value=''; set_shadow('view_menu');"> Выход </li></div>""")
 	lout.append ("""<hr><li class="bfligt line" onclick="set_shadow('KuKu');"> KuKu </li>""")
 	print "~menu|", '\n'.join(lout)
-
+	print "~last_time|<pre>"
+	for k in ['disp', 'ip_loc', 'smena', 'utype', 'subst', 'tname', 'cod', 'ch_id', 'armid', 'type']:	print "%10s:" % k, US_ROW.get(k)	#US_ROW.keys(), US_ROW.get('utype'), US_ROW.get('ch_id')
+	print "</pre>"
 
 def	out_KuKu (SSO, request):
 	import cPickle as pickle

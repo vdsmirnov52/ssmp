@@ -828,13 +828,15 @@ def	calls_list (SS, request):
 #	print """<div id="list_calls" style="border: thin solid #668; width: 100%; position: absolute; background-color: #fff; padding: 2px; min-height: 20%; max-height: 90%; overflow: auto;">"""
 #	parse_forms ({}, {}, 'list_calls.html')
 	print "<table id='tbl_calls' width=100%>"
+	'''
 	print "<thead>"
 	if sfrom in sfrom_oo:
 	#	print "<tr><th colspan=2 width=370px> Вызова </th><th>П/С</th><th width=250px> ФИО </th><th colspan=5 width=340px> Обслуживание </th><th width=100px> Бригады </th></th><th> Примечания </th></tr>"
 		print "<tr><th colspan=2 > Вызова </th><th>П/С</th><th > ФИО </th><th colspan=5 > Обслуживание </th><th > Бригады </th></th><th> Примечания </th></tr>"
 	else:	print "<tr><th colspan=2> Вызова </th><th>П/С</th><th> ФИО </th><th colspan=5> Обслуживание </th><th colspan=1> Бригады </th></th><th> ОМС </th><th> Примечания </th></tr>"
 	print "</thead><tbody>"
-	print "<tr><th colspan=2> Вызова </th><th> П/С  </th><th> ФИО </th><th colspan=5> Обслуживание </th><th colspan=1> Бригады </th></th><th> Примечания </th></tr>"
+	'''
+	print "<tr style='background: #bcd;'><th colspan=2> Вызова </th><th> П/С  </th><th> ФИО </th><th colspan=5> Обслуживание </th><th colspan=1> Бригады </th></th><th> Примечания </th></tr>"
 	for r in res[1]:
 		cstt = clc_cstatus(r, d)
 		cclass, cimg = cdef2cstt (cstt)
