@@ -260,6 +260,7 @@ def	update_call (US_ROW, dcall, request):
 	cnum_total = dcall['cnum_total']
 	sfrom = request.get ('sfrom')
 	opts = request.get ('opts')
+	print 'opts:', opts, 'sfrom:', sfrom, 'cnum_total:', cnum_total
 	if request.has_key('set_br_ref'):	# Назначение Бригады
 #		try:
 		#	{'disp': '3043', 'cnum_ttl': '128266', 'shstat': 'open_call', 'exec': 'UPDATE', 'this': 'ajax', 'set_bnumber': '320', 'sel_corder': '1', 'set_br_ref': '648'}
@@ -291,6 +292,7 @@ def	update_call (US_ROW, dcall, request):
 #	opts=EDIT
 	if opts and opts == 'EDIT':
 #		try:
+			print 'EDIT', 'sfrom:', sfrom, 'cnum_total:', cnum_total
 			sets = []
 			for k in ['reslt', 'diagn', 'diat', 'kuda']:
 				val = request.get (k)
@@ -445,11 +447,14 @@ def	save_call (US_ROW, dcall, request):
 def	out_fcall (US_ROW, request):
 
 	cnum_ttl = request.get('cnum_ttl')
-	is_arch = request.get('is_arch')
+	if request.get('is_arch'):
+		is_arch = True
+	else:	is_arch = False
 	if not cnum_ttl:	return
 	query = "SELECT * FROM call WHERE cnum_total = %s" % cnum_ttl
 	dcall = dboo.get_dict (query)
-	print "~log|call:", request
+	print "~log|out_fcall:", 'is_arch:', is_arch
+#	return
 	if dcall:
 		if request.get('reasn'):
 			if update_call (US_ROW, dcall, request):	dcall = dboo.get_dict (query)
@@ -478,8 +483,15 @@ def	out_fcall (US_ROW, request):
 			request['tkt_number'] = str(dcall['cnum_total'])
 			return	get_call (US_ROW, request)
 		print "ARCH"
+		if not dcall:
+			print """~eval| alert("out_fcall: Not call cnum_ttl: %s")""" % request.get('cnum_ttl')
+			return
 		is_arch = True
-		if not dcall:	return
+		if request.get('exec') and request['exec'] == 'UPDATE':
+			request['sfrom'] = 'calls'	### Правка в Архиве
+			if update_call (US_ROW, dcall, request):
+				dcall = dboo.get_dict (query)
+			else:	return
 
 	print "US_ROW: ARM:", US_ROW['armid'], US_ROW['disp'], "<br>"
 #	print "request:", request, "<br>"
@@ -538,7 +550,7 @@ def	out_fcall (US_ROW, request):
 			obj['ds_plus'] = T.sselect (dboo, dictin['diagn'], ds_plus)
 			obj['diat'] = inputText ('diat', sdiat, "size=42")
 			obj['kuda'] = inputText ('kuda', skuda, "size=28")
-			obj['SAVE'] = """<input type='button' class='butt' value='Сохранить изменения' onclick="set_shadow('open_call&exec=UPDATE&opts=EDIT&cnum_ttl=' +'%s&sfrom=call');">""" % cnum_ttl
+			obj['SAVE'] = """<input type='button' class='butt' value='Сохранить изменения' onclick="set_shadow('open_call&exec=UPDATE&opts=EDIT&cnum_ttl=%s&sfrom=call');">""" % cnum_ttl
 			obj['CLOSE'] = """<input type='button' class='butt' value='Закрыть (в Архив)' onclick="call_done(%s, 'call');">""" % cnum_ttl
 	#	elif cstt in [27, 29, 31]:			obj['CALL_CLOSE'] = "<span class='tit'> &nbsp; Результаты для ОМС 111 </span> %s" % dcall['reslt']
 			
@@ -566,7 +578,7 @@ def	out_fcall (US_ROW, request):
 		elif cstt == 7:
 			if dcall['reslt'] and dcall['reslt'] in reslt_hospital:
 				obj['kuda'] = inputText ('kuda', skuda, "size=28")
-				obj['SAVE'] = """<input type='button' class='butt' value='Сохранить изменения' onclick="set_shadow('call_form&exec=SAVE&cnum_ttl=' +'%s&sfrom=call');">""" % cnum_ttl
+				obj['SAVE'] = """<input type='button' class='butt' value='Сохранить изменения' onclick="set_shadow('call_form&exec=SAVE&cnum_ttl=%s&sfrom=call');">""" % cnum_ttl
 		elif cstt in [27, 29, 31]:
 			obj['CALL_CLOSE'] = "<span class='tit'> &nbsp; Результаты для ОМС 222 </span> %s" % dcall['reslt']
 			setobj4oms (obj, dcall)
@@ -581,7 +593,12 @@ def	out_fcall (US_ROW, request):
 			#	obj['CALL_CLOSE'] = "<span class=''> %s </span>" % " &nbsp; ".join(wlist)
 				obj['CALL_WAR'] = "<div class=''> %s </div>" % " &nbsp; ".join(wlist)
 			else:	#pass
-				obj['CALL_CLOSE'] = "<span class='tit'> &nbsp; Результаты для ОМС Else </span>"
+				obj['CALL_CLOSE'] = """<table width=100%%><tr><td><span class='tit'> &nbsp; Результаты для ОМС Else </span></td><td align='right'>
+				<input class='butt' type='button' value='Сохранить в Рестре' onclick="set_shadow('call_form&exec=SAVEOMS&cnum_ttl=%s')"></td></tr></table>""" % cnum_ttl
+				if dcall.get('age'):	# and dcall['age'].isdigit():
+					atm = dcall.get('t_get') - 31536000*int(dcall.get('age'))
+				else:	atm = 0
+				obj['myar'] = time.strftime("%Y", time.localtime (atm))
 				setobj4oms (obj, dcall)
 
 		if not is_arch:	obj['BSTT_SERVS'] = button_box (US_ROW, dcall, cstt)
