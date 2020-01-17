@@ -122,12 +122,8 @@ def	check ():
 			elif shstat in ['ACCESS_NSI', 'USERS', 'AUTOS', 'POLIT']:
 				import	nsi_tools as nsi
 				nsi.main(SS, request)
-				'''
-				if shstat == 'USERS':	nsi.USERS(SS, request)
-				elif shstat == 'AUTOS':	nsi.AUTOS(SS, request)
-				elif shstat == 'POLIT':	nsi.POLIT(SS, request)
-				else:	nsi.main(SS, request)
 				
+				'''
 			elif shstat == 'find_calls':	calls.calls_list (US_ROW, request)
 				'''
 			elif shstat == 'tree_alert':
