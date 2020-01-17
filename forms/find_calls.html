@@ -1,0 +1,60 @@
+<!-- Заноловок поиска списка вызовов	ss_badservise  ss_cwfind  ss_corder	-->
+<div id="fcalls_head" class="call">
+<table width=100%> <tr> <td class="tit"> &nbsp; Вызова: {{ sel_cwfind }} 
+	</td><td align="center"> &nbsp;Сортировать: {{ sel_corder }}
+	{% if DISP_PS %}
+	</td><td align="center"> &nbsp;Подстанция:<b>	{{ subst }} </b>
+	{% else %}
+	</td><td align="center"> &nbsp;Подстанция:	{{ sel_subst }}
+	{% endif %}
+	</td><td align="center"> &nbsp;Место:	{{ sel_place }}
+	</td><td align="right" width=30px>
+	<i id="ffc_icon" style="display: none;" class="fa fa-search fa-2x line" aria-hidden="true" title="Расширенный Поиск" onclick="set_shadow('find_calls&ffc_head=Y');"></i>
+	</td><td align='right'>
+	{% if not DISP_PS %}
+	<i class="fa fa-plus-square-o fa-2x line" aria-hidden="true" title="Расширенные параментры Поиска" onclick="showBlock('ffc_head'); showBlock('ffc_icon');"></i> &nbsp;
+	{% endif %}
+	<i class="fa fa-refresh fa-2x line" aria-hidden="true" title="Искать" onclick="set_shadow('find_calls');"></i>	&nbsp;
+</td></tr></table>
+
+<div id="ffc_head" class="call" style="display: none;">
+<table cellpadding=2 cellspacing=0 border=0 width=100%>
+<tr valign=top align="center"><td>
+	<table cellpadding=2 cellspacing=0 border=0 width=100%>
+	<tr><td align="right"> Улица: </td><td> <input type="text" name="like_street" value="" size=20 maxlength=22> </td></tr>
+	<tr><td align="right"> Дом: </td><td> <input type="text" name="like_house" value="" size=20 maxlength=22> </td></tr>
+	<tr><td align="right"> ФИО: </td><td> <input type="text" name="like_name" value="" size=20 maxlength=22> </td></tr>
+	</table>
+</td><td>
+	<table cellpadding=2 cellspacing=0 border=0 width=100%>
+	<tr><td align="right"> N&nbsp;Вз: </td><td> <input type="text" name="call_numbers" value="" size=16 maxlength=22> </td></tr>
+	<!--tr><td align="right"> П/С: </td><td> <input type="text" name="sub_numbers" value="" size=16 maxlength=22></td></tr-->
+	<tr><td align="right"> N&nbsp;Бр: </td><td> <input type="text" name="brg_numbers" value="" size=16 maxlength=22></td></tr>
+	</table>
+</td><td>
+	<table cellpadding=2 cellspacing=0 border=0 width=100%>
+	<tr><td align="right"> Резлт.: </td><td> <input type="text" name="reslt_cod" value="" size=16 maxlength=22></td></tr>
+	<tr><td align="right"> Диагн.: </td><td> <input type="text" name="diagn_cod" value="" size=16 maxlength=22></td></tr>
+	<tr><td align="right"> Куда: </td><td> <input type="text" name="like_kuda" value="" size=16 maxlength=22> </td></tr>
+	</table>
+</td><td>
+	<table cellpadding=2 cellspacing=0 border=0 width=100%>
+	<tr><td align="right"></td><td>
+		<label><input type="checkbox" name="oms"  onchange="set_shadow('find_calls');"> ОМС </label>
+		<label><input type="checkbox" name="r9x"  onchange="set_shadow('find_calls');"> Все </label>
+		<label><input type="checkbox" name="cn_total"  onchange="set_shadow('find_calls');"> T.N&ordm;</label>
+		</td></tr>
+	<tr><td align="right"> Повод:
+		</td><td> <input type="text" name="like_reasn" value="" size=2 maxlength=3>
+		проф:<input type="text" name="tmp_profile" value="" size=1 maxlength=1>
+		лет:<input type="text" name="like_age" value="" size=2 maxlength=3>
+	</td></tr>
+	<tr><td align="right"> Обсл.: </td><td> {{ sel_badservis }} </td></tr>
+	</table>
+</td></tr>
+</table>
+</div>	<!-- END ffc_head	-->
+</div>	<!-- END fcalls_head Заноловок поиска списка вызовов	-->
+<div id="list_calls" style="border: thin solid #668; width: 100%; position: absolute; background-color: #fff; padding: 2px; min-height: 20%; max-height: 90%; overflow: auto;">
+</div>	<!-- END list_calls	-->
+<span id='len_list'>len_list</span>

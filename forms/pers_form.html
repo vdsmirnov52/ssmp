@@ -1,0 +1,37 @@
+<!-- Карточка Сотрудникв СМП 	-->
+<div id='pers_form' type='hidden' style='top: 160px; left: 300px; width: 600px; min-height: 400px; border: thin solid #668; background-color: #efe; position: absolute; '>
+
+<div id="head_cbrg" style="width: 100%; background-color: #160; color: #fff; font-size: 14px; font-weight: bold;"><table width=100%><tr>
+<td width=2%><span style='font-size: 14px;'>&nbsp; {{ img }} </span></td>
+<td width=30% align='center'><span style='font-size: 14px;'> {{ title }}	</span></td>
+<!--td align='center'>П/С:<b> 	{{ n_pst }}	</b></td-->
+{% if IS_UPDATE %}
+	<td align='right'> {{ UPDATE }} </td>
+{% else %}
+	<td align='right'> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
+{% endif %}
+<td align='right'><span onclick="$('#wdg_bc').css({'z-index': null}).html('');{{ refresh }}"><img src="img/error24.png"></span></td>
+</tr></table>
+</div>	<!-- head_cbrg	-->
+<div id='body_cbrg' style='padding: 12px;'>
+<table width=100%>
+	<tr><td align='right' width=34%> ФИО: </td><td><b>	{{ name }} </b> &nbsp; Смена:<b> {{ smena }}  &nbsp; {{ is_delete }} </b></td></tr>
+	<tr><td align='right'> Табельный №: </td><td><b> 	{{ cod }}  </b> &nbsp; Снилс: <b> {{ snils }} </b></td></tr>
+	<tr><td align='right'>П/С: </td><td><b> 	{{ sn_pst }}	</b></td></tr>
+	<tr><td align='right'>Должность: </td><td><b> 	{{ psname }}	</b></td></tr>
+	<tr><td align='right'> Категория: </td><td><b> 	{{ cname }}	</b></td></tr>
+	<tr><td valign='top' align='right'> Статус: </td><td><b> 	{{ stat }}	</b></td></tr>
+
+	<!--tr><td align='right'>  </td><td> 	stm_end	</td></tr-->
+ 	<tr><td align='right'> Старший бригады: </td><td><b>	{{ doctor }}	</b></td></tr>
+	<tr><td align='right'> средний м.п.: </td><td><b>	{{ feldsh }}	</b></td></tr>
+	<tr><td align='right'> младший м.п.: </td><td><b>	{{ sanitr }}	</b></td></tr>
+	<tr><td valign='top' align='right'> Водитель: </td><td><b> 	{{ driver }} 	</b></td></tr>
+	{% if AUTO %}
+		<tr><td align='right'> Автомобиль: </td><td><b>	{{ auto }}	</b></td></tr>
+	{% endif %}
+	<tr><td align='center' colspan=2>&nbsp; {{ SAVE }}	&nbsp;</td></tr>
+</table>
+	<pre> {{ pre }}	</pre>
+</div>  <!-- body_cbrg	-->
+</div>	<!-- pers_form	-->

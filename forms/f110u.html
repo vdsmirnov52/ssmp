@@ -1,0 +1,124 @@
+
+<span id="b_01" class="line butt" onclick="$('#01-09').show(); $('#10-19').hide(); $('#23-31').hide(); $('#dobj').hide();	$('#b_01').addClass('mark'); $('#b_10').removeClass('mark'); $('#b_20').removeClass('mark');	">[ #ZZZZZ ### ] </span>
+<span id="b_10" class="line butt" onclick="$('#01-09').hide(); $('#10-19').show(); $('#23-31').hide(); $('#dobj').hide();	$('#b_10').addClass('mark'); $('#b_01').removeClass('mark'); $('#b_20').removeClass('mark');	">[ #10-19 ] </span>
+<span id="b_23" class="line butt" onclick="$('#01-09').hide(); $('#10-19').hide(); $('#23-31').show(); $('#dobj').hide();	$('#b_23').addClass('mark'); $('#b_01').removeClass('mark'); $('#b_10').removeClass('mark');	">Диагноз </span>
+<span id="bobj" class="line butt" onclick="$('#01-09').hide(); $('#10-19').hide(); $('#23-31').hide(); $('#dobj').show();	$('#bobj').addClass('mark'); $('#b_01').removeClass('mark'); $('#b_10').removeClass('mark');    ">Объективные данные  </span>		<br>
+
+<h5 align=center><b>КАРТА<br>вызова скорой медицинской помощи № {{ number }} <br> {{ date }} </b></h5>
+<div id="01-09">
+<ol start="1">
+	<li style=""> <span class="">  Номер фельдшера по приему вызова:	</span>	<b> {{ user }} </b> </li>
+	<li style=""> <span class="">  Номер станции (подстанции), отделения:	</span>	 <b> {{ subst }} </b> </li>
+	<li style=""> <span class="">  Номер бригады скорой медицинской помощи:	</span>	 <b> {{ brigs }} </b><br>
+	Состав бригады СМП: <b> {{ doctor}} {{feldsh}} {{sanitr}} </b><br>
+	Водитель, автомобиль: <b>{{ driver }} </b> гос.№ <b> {{ auto }} </b>
+	</li>
+	<li style=""> <span class="">  Время (часы, минуты):	</span>	 
+	<table width=96% border=1>
+	<tr align=center><td> Принят </td><td> Передан </td><td> Выехал </td><td> Прибыл </td><td> Транспорт </td><td> в МедОрг </td><td> Завершил </td><td> на ПС </td><td> Длительность </td></tr>
+	<tr align=center style="12px; font-weight: bold;">
+		<td> {{ t_get }} </td><td> {{ t_send }} </td><td> {{ t_ }} </td><td> {{ t_arrl }} </td><td> {{ tm_trans }} </td><td> {{ tm_hosp  }} </td><td> {{ t_done }} </td><td> {{ tm_ps }} </td><td> {{ dtime }} </td></tr>
+	</table>
+	</li>
+	<li style=""> <span class="">  Адрес вызова: ______________________ район ______________________ город/село </span><br>
+	улица <b> {{ saddres }} </b>, корп. {{korp}}, кв. {{flat}}, подезд {{pdzd}}, этаж {{etj}}, код {{pcod}}  </li>
+	<li style=""> <span class="">  Сведения о больном:	</span><br>
+	фамилия {{name}}, имя {{name2}}, отчество {{oname}}, пол {{sex}}, лет {{age}}, телефон {{phone}}
+	</li>
+	<li style=""> <span class="">  Кто вызвал:	</span>	<b> {{kto}} </b> телефон {{phone}}
+	</li>
+	<li style=""> <span class="">  Фельдшер, принявший вызов	</span><b> {{ g_disp }} </b></li>
+	<li style=""> <span class="">  Фельдшер, передавший вызов	</span><b> {{ s_disp }} </b></li>
+</div>	<!-- 01-09	-->
+<div id="10-19">
+<ol start="10">
+	<li value="10" style=""> <span class="">  Место регистрации больного:	</span><div>	{{ j_registr }} </div>
+	 </li>
+	<li style=""> <span class="">  Социальное положение больного:	</span><br>	{{ j_social }}	</li>
+	<li style=""> <span class="">  Повод к вызову:	</span><br>	{{ j_reason }}	</li>
+	<li style=""> <span class="">  Вызов:	</span>	 
+	# </li>
+	<li style=""> <span class="">  Место получения вызова бригадой скорой медицинской помощи:	</span>	 
+	# </li>
+	<li style=""> <span class="">  Причины выезда с опозданием:	</span>	 
+	# </li>
+	<li style=""> <span class="">  Состав бригады скорой медицинской помощи:	</span>	
+	<b> {{ cbrig }} </b>
+	</li>
+	<li style=""> <span class="">  Место вызова:	</span>	 
+	# </li>
+	<li style=""> <span class="">  Причина несчастного случая:	</span>	<br>
+	{{ j_cause }}
+	</li>
+	<li style=""> <span class="">  Наличие клиники опьянения:</span>	<label><input type="radio" name="alko" value="y"> да; </label> <label><input type="radio" name="alko" value="n"> нет </label>
+	
+	# </li>
+	<li style=""> <span class="">  Жалобы:	</span>	<br> <input name="complaints" type="textarea" size=100> </li>
+	<li style=""> <span class="">  Анамнез:	</span>	<br> <input name="anamnesis" type="textarea" size=100> </li>
+</ol>
+</div>	<!-- 10-19	-->
+<div id="dobj">
+<ol start="22">
+	<li style=""> <span class="">  Объективные данные.	</span>	 
+	<span><br>
+	Общее состояние:	{{ j_obj_general }}	<br>
+	Поведение:	{{ j_obj_behav }}	<br>
+	Сознание:	{{ j_obj_cons }}	<br>
+	Менингеальные знаки:	<label><input type="radio" name="menngt" value="y"> есть; </label> <label><input type="radio" name="menngt" value="n"> нет </label>	<br>
+	Зрачки:	{{ j_obj_pupils }}	<br>
+	Анизокория:		<label><input type="radio" name="anizokr" value="y"> есть; </label> <label><input type="radio" name="anizokr" value="n"> нет </label>	<br>
+	Нистагм:		<label><input type="radio" name="nistagm" value="y"> есть; </label> <label><input type="radio" name="nistagm" value="n"> нет </label>	<br>
+	Реакция на свет:	<label><input type="radio" name="r2ligth" value="y"> есть; </label> <label><input type="radio" name="r2ligth" value="n"> нет </label>	<br>
+	Кожные покровы:	{{ j_obj_integ }}	<br>
+	Акроцианоз:		<label><input type="radio" name="acrocyan" value="y"> есть; </label> <label><input type="radio" name="acrocyan" value="n"> нет </label>	<br>
+	Мраморность:		<label><input type="radio" name="mramor" value="y"> есть; </label> <label><input type="radio" name="mramor" value="n"> нет </label>	<br>
+	Отеки:			<label><input type="radio" name="otek" value="y"> есть; </label> <label><input type="radio" name="otek" value="n"> нет </label> &nbsp; локализация <input name="otek_loc" type="text" size=20>	<br>
+	Сыпь:			<label><input type="radio" name="rash" value="y"> есть; </label> <label><input type="radio" name="rash" value="n"> нет </label> &nbsp; локализация <input name="rash_loc" type="text" size=20>	<br>
+	Дыхание:	{{ j_obj_breath }}	<br>
+	Хрипы:	{{ j_obj_rattles }}	<br>
+	Одышка:	{{ j_obj_wind }}	<br>
+	Органы системы кровообращения		<br>
+		&nbsp; &nbsp;	Тоны сердца:	{{ j_obj_tones }} <br>
+		&nbsp; &nbsp;	Шум:	{{ j_obj_noise }}	<br>
+		&nbsp; &nbsp;	Пульс:	{{ j_obj_pulse }}	<br>
+	Органы пищеварения		<br>
+		&nbsp; &nbsp;	Язык:	{{ j_obj_lang }}	<br>
+		&nbsp; &nbsp;	Живот:	{{ j_obj_stom }}	<br>
+		&nbsp; &nbsp;	Симптомы раздражения брюшины:		<br>
+		&nbsp; &nbsp;	Печень:		<br>
+		&nbsp; &nbsp;	Мочеиспускание	<input name="urination" type="text" size=40>		<br>
+		&nbsp; &nbsp;	Стул	<input name="stool" type="text" size=40>		<br>
+		&nbsp; &nbsp;	Другие симптомы	<input name="complaints" type="textarea" size=80> </li>		<br>
+	</span>
+	</li>
+</ol>
+</div>	<!-- dobj	-->
+
+<div id="23-31">
+<ol >
+	<li value="23" style=""> <span class="">  Диагноз	_____	</span>	 
+	# </li>
+	<li style=""> <span class="">  Осложнения:	</span>	 
+	# </li>
+	<li style=""> <span class="">  Эффективность мероприятий при осложнении:	</span>	 
+	# </li>
+	<li style=""> <span class="">  Оказанная помощь на месте вызова (проведенные манипуляции и мероприятия):	</span>	 
+	# </li>
+	<li style=""> <span class="">  Оказанная помощь в автомобиле скорой медицинской помощи (проведенные манипуляции и мероприятия):	</span>	 
+	# </li>
+	<li style=""> <span class="">  Эффективность проведенных мероприятий:	</span>	 
+	# </li>
+	<li style=""> <span class="">  Результат оказания скорой медицинской помощи:	</span>	 
+	# </li>
+	<li style=""> <span class="">  Больной:	</span>	 
+	# </li>
+	<li style=""> <span class="">  Способ доставки больного в автомобиль скорой медицинской помощи:	</span>	 
+	# </li>
+	<li style=""> <span class="">  Результат выезда	</span>	 
+	# </li>
+	<li style=""> <span class="">  Километраж выезда	</span>	 
+	# </li>
+	<li style=""> <span class="">  Примечания	</span>	 
+	# </li>
+</ol>
+</div>  <!-- 23-31	-->

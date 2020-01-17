@@ -1,0 +1,19 @@
+<!-- Заноловок поиска списка Бригад	find_brigs.html	-->
+<div id="fbrigs_head" class="green">
+<table width=100%> <tr> <td class="tit"> &nbsp; Бригады: {{ sel_bwfind }}	</td>
+	{% if DISP_PS %}
+	<td align='center'> &nbsp; Подстанция:<b> {{ subst }}  </b></td>
+	{% else %}
+	<td align='center'> &nbsp; Подстанция: {{ sel_subst }}	</td>
+	{% endif %}
+	{% if online %}
+	<td align='center' width='40%'> &nbsp; Статус: {{ sel_statb }}	</td>
+	{% else	%}
+	<td align='center' width='40%'> &nbsp; Смена: {{ sel_smen }}	</td>
+	{% endif %}
+	<td align='center'> &nbsp; online	{{ online }}	</td>
+	<td align='right'>
+	<i class="fa fa-refresh fa-2x line" aria-hidden="true" title="Искать" onclick="set_shadow('find_calls');"></i>  &nbsp;
+</td></tr></table>
+
+</div>	<!-- END fbrigs_head	-->

@@ -1,0 +1,18 @@
+<!-- Заноловок поиска списка Сотрудники СМП forms/find_users.html	-->
+<div id="fbrigs_head" class="green">
+<table width=100%> <tr> <td class="tit"> &nbsp; Сотрудники СМП {{ sel_bwfind }}	</td>
+	{% if DISP_PS %}
+	<td align='center'> &nbsp; Подстанция:<b> {{ subst }}  </b></td>
+	{% else %}
+	<td align='center'> &nbsp; Подстанция: {{ sel_subst }}	</td>
+	{% endif %}
+	<!--td align='center'> &nbsp; Должность: {{ sel_post }}	</td-->
+	<td align='center'> &nbsp; Категория:{{sel_category}}	</td>
+	<td align='center'> &nbsp; Статус:{{sel_stat}}	</td>
+	<!--td align='center'> &nbsp; Смена:{{sel_smen}}	</td-->
+
+	<td align='right'>
+	<i class="fa fa-refresh fa-2x line" aria-hidden="true" title="Искать" onclick="set_shadow('find_calls');"></i>  &nbsp;
+</td></tr></table>
+
+</div>	<!-- END forms/find_users.html	-->

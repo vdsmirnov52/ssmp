@@ -1,0 +1,54 @@
+<div><table cellpadding=1 cellspacing=0 border=0 width=100%>
+<tr><td><font color=#000066><b>Показать МК ОМС</b></font>
+	<input type='button' class='bb' value='Показать' onclick="$.ajax ({data: 'shstat=update_oms&' +$('form').serialize()});" /></td>
+	<td><div class='finans'><table cellpadding=1 cellspacing=0 border=0 width=100%><tr>
+		<td align=right width=20>Оплата:</td>
+		<td><select name='set_seldog' onchange="$.ajax ({data: 'shstat=set_seldog&' +$('form').serialize()})">
+			<option value='O' selected>ОМС</option><option value='B' >Бюджет</option></select>
+		</td>
+		<td id='next_td'> &nbsp; <b>ФОМС</b> </td><td id='result_td'> &nbsp; </td>
+		<td align=right><input type='button' class='bb' value='Изменить' onclick="$.ajax ({data: 'shstat=update_finans&' +$('form').serialize()});" /></td>
+		</tr></table></div>
+	</td></tr></table></div>
+<fieldset><legend><font color=#000066><b>МКБ-10: </b></font>
+<input type='button' class='bb' value='Изменить' onclick="if (confirm ('Вы уверены в необходтмость изменений?')) {
+			$.ajax ({data: 'shstat=update_mkb10&' +$('form').serialize()}); }" /><span id='res_mkb10'></span></legend><table cellpadding=1 cellspacing=0 border=0 width=100%>
+<tr><td align=right>МКБ-10:</td><td colspan=3 nowrap><input name='set_mkb_cod' type='text' size=3 maxlength=4 value='I45.9 ' readonly>
+<span id='sel_cod_mkb10'>
+	<select name="set_mkb_local"
+		onchange="document.mainForm.set_mkb_cod.value = document.mainForm.set_mkb_local.value;">
+	<option value=""></option>
+	<option value="I44.1 " >  I44.1 Предсердно-желудочковая блокада второй степени </option>
+	<option value="I44.2 " >  I44.2 Предсердно-желудочковая блокада полная </option>
+	<option value="I45.9 " selected>  I45.9 Нарушения проводимости неуточненное </option>
+</select>
+</span>
+</tr>
+<tr><td>&nbsp;</td><td colspan=3>
+	<select name="set_mkb_group"
+		onchange="$.ajax ({data: 'shstat=sel_cod_mkb10&ds_num=82&' +$('form').serialize()});">
+	<option value=""></option>
+	<option value="902" >  I05-I09 Хронические ревматические болезни сердца </option>
+	<option value="903" >  I10-I15 Болезни, характеризующиеся повышенным кровяным давлением </option>
+	<option value="909" >  I80-I89 Болезни вен, лимфатических сосудов и лимфатических узлов, не классифицированные </option>
+	</select>
+</td></tr>
+</table></fieldset>
+<div id='if_oms'></div>
+<fieldset><legend><font color=#000066><b> Объем ПОМОЩИ пациенту: </b></font>
+<input type='button' class='bb' value='Изменить'
+			onclick="if (confirm ('Вы уверены в необходтмость изменений Объем ПОМОЩИ пациенту?')) {
+			$.ajax ({data: 'shstat=update_helps&' +$('form').serialize()}); }" /></legend>
+<table cellpadding=1 cellspacing=0 border=0 width=100%><tr>
+<td valign=top>
+<input type="text" name="0:chelps" value="" size=16 maxlength=32><br /><label><input type="checkbox" name="1:chelps" >Санац. носоглотки</label><br /><label><input type="checkbox" name="2:chelps" >Воздуховод</label><br /><label><input type="checkbox" name="3:chelps" >ИВЛ</label><br /><label><input type="checkbox" name="4:chelps" >Массаж сердца</label><br /><label><input type="checkbox" name="5:chelps" >Дефибриляция</label><br /><label><input type="checkbox" name="6:chelps" >Интубация</label><br />
+<td valign=top>
+<label><input type="checkbox" name="7:chelps" checked>Кислород</label><br /><label><input type="checkbox" name="8:chelps" >Закись азота</label><br /><label><input type="checkbox" name="9:chelps" >В/В наркоз</label><br /><label><input type="checkbox" name="10:chelps" >Повязка</label><br /><label><input type="checkbox" name="11:chelps" >Шина</label><br /><label><input type="checkbox" name="12:chelps" >Жгут</label><br /><label><input type="checkbox" name="13:chelps" >Конико (трахеостамия)</label><br />
+<td valign=top>
+<label><input type="checkbox" name="14:chelps" >В/В инъекции</label><br /><label><input type="checkbox" name="15:chelps" >В/М, П/К инъекции</label><br /><label><input type="checkbox" name="16:chelps" >Катет. периф. сосудов</label><br /><label><input type="checkbox" name="17:chelps" >Катет. магистр. сосудов</label><br /><label><input type="checkbox" name="18:chelps" >Инфузионная терапия</label><br /><label><input type="checkbox" name="19:chelps" >ПШК "Каштан"</label><br /><label><input type="checkbox" name="20:chelps" >ЭКГ/мониторинг</label><br />
+<td valign=top>
+<label><input type="checkbox" name="21:chelps" >Новок. блокада</label><br /><label><input type="checkbox" name="22:chelps" >Пункция полостей</label><br /><label><input type="checkbox" name="23:chelps" >Промывание желудка</label><br /><label><input type="checkbox" name="24:chelps" >Катет. мочевого пузыря</label><br /><label><input type="checkbox" name="25:chelps" checked>Носилки</label><br /><label><input type="checkbox" name="26:chelps" >Небулайзер</label><br /><label><input type="checkbox" name="27:chelps" >Физ. стеснение</label><br /></tr></table><hr /><span id='who_chelps'>
+<font color=#006600>В <b> 09:04</b> от <b> 18/04/19</b> &nbsp; Формировал &nbsp; <b>6134 &nbsp; Михайлова С.Н.</b> (Дисп. ПС)
+</font>
+</span></fieldset>
+<a href="javascript:document.mainForm.stat.value='view_arch_history_on';document.mainForm.submit()"> <b>Показать историю вызова</b></a><br />
