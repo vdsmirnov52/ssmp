@@ -42,9 +42,10 @@ function	find_street (event) {	// Поиск улицы		onkeyup='return find_st
 	if (sget.length > 2) {
 		if (s_send == sget)	return;
 		s_send = sget;
-		if (websocket != null)
+	/*	if (websocket != null)
 			websocket.send ('shstat=find_street&' +$('form').serialize());
 		else	$.ajax ({data: 'shstat=find_street&' +$('form').serialize()});
+	*/	$.ajax ({data: 'shstat=find_street&' +$('form').serialize()});
 	}
 }  
 

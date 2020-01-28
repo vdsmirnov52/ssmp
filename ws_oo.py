@@ -29,36 +29,112 @@ DTM_CODES =	[]
 for j in xrange(MAX_DTM):	DTM_CODES.append(None)
 
 INN_CODES =	{}
-IDS_bm_ssys =	0
+IDS_bm_ssys =	128	# СМП
+
+dbi = dbtools.dbtools('host=212.193.103.20 dbname=receiver port=5432 user=smirnov')
+dboo = dbtools.dbtools('host=212.193.103.21 dbname=b03 port=5432 user=smirnov')
+dbrg = dbtools.dbtools('host=212.193.103.21 dbname=region port=5432 user=smirnov')
+
+def	get_geopos (street, house):
+	query = "SELECT gy, gx FROM voo_house WHERE sname = '%s' AND house_num LIKE '%s'" % (street, house)
+	dyx = dbrg.get_row (query)
+	if dyx:	return float(dyx[0]), float(dyx[1])
+
+mitex_events = threading.Lock()
+mitex_dcalls = threading.Lock()
+GLOB_CALLSLIST = []
+GLOB_DCALLS = {}
+GLOB_EVENTS = {}
+DDISP = {}
+
+def	actual_events ():
+	print "События в ОО (Вызова, назначение Бригад)	actual_events"
+	chc = ['t_get', 't_send', 't_arrl', 'tm_hosp', 'tm_trans', 'tm_ps', 'nbrg', 'pbrg']
+	while not exit_request:
+		res = dboo.get_table ("call", "t_done IS NULL ORDER BY t_get DESC")
+		if not res:
+			with mitex_events:	GLOB_EVENTS[int(time.time())] = "<span class='bfinf'> Нет Вызовов </span>"
+		d = res[0]
+		for r in res[1]:
+			cnttl = r[d.index('cnum_total')]
+			if cnttl in GLOB_DCALLS.keys():	### Check
+				if r[d.index('t_done')]:
+					with mitex_dcalls:	GLOB_DCALLS[cnttl]['opts'] = 'done'
+				isupdt = False
+				for k in chc:
+					if not r[d.index(k)]:	continue
+					if not GLOB_DCALLS[cnttl].get(k) or r[d.index(k)] != GLOB_DCALLS[cnttl][k]:
+						with mitex_dcalls:	GLOB_DCALLS[cnttl][k] = r[d.index(k)]
+						isupdt = True
+				if isupdt:
+					with mitex_dcalls:	GLOB_DCALLS[cnttl]['opts'] = 'updt'
+			else:	### New
+				jdct = {}
+				for k in chc:
+					if r[d.index(k)]:	jdct[k] = r[d.index(k)]
+				jdct['YX'] = get_geopos (r[d.index('street')], r[d.index('house')])
+				jdct['addr'] = {'s': r[d.index('street')], 'h': r[d.index('house')], 'k': r[d.index('korp')]}
+				jdct['opts'] = 'add'
+				with mitex_dcalls:
+					GLOB_DCALLS[cnttl] = jdct
+					GLOB_CALLSLIST.append(cnttl)
+		for t in GLOB_DCALLS.keys():
+			if GLOB_DCALLS[t]['opts'] in ['add', 'updt', 'done']:	print t, GLOB_DCALLS[t]['opts'], GLOB_DCALLS[t]['YX']
+		print '#'*22, "actual_events", len(res[1])
+		time.sleep(11)
+
+
+def	get_disp (intm, addr, request):
+	""" Читать реквизоты пользователя	"""
+	global	DDISP
+	if request:	disp = request.get('disp')
+	ddisp  = DDISP.get(disp)
+	if not ddisp:
+		ddisp = dboo.get_dict ("SELECT * FROM usr03 WHERE disp = %s" % disp)
+		if not ddisp:	return "Not DDISP"
+		DDISP[disp] = ddisp
+		return	str(ddisp)
+	list_where = []
+	if ddisp['type'] == 8:	list_where.append("subst = %s" % ddisp['subst'])
+	list_where.append("t_done IS NULL")
+#	list_where.append("ORDER BY t_get DESC")
+	res = dboo.get_table ("call", " AND ".join(list_where) +" ORDER BY t_get DESC")
+	if not res:	return "Error"
+	lout = []
+#	<span class="line bferr"> <i class="fa fa-newspaper-o fa-lg" aria-hidden="true"></i>&nbsp; 1119 <b>18Р </b> </span>
+	d = res[0]
+	jcalls = []
+	for r in res[1]:
+		jcalls.append(r[d.index('cnum_total')])
+		if ddisp.has_key('calls') and r[d.index('cnum_total')] in ddisp['calls']:	continue
+		lout.append("""<li class='bfligt line' onclick="open_call(%s)"> <i class="fa fa-newspaper-o fa-lg" aria-hidden="true"></i> %s %s</li>""" % (
+			r[d.index('cnum_total')], r[d.index('number')], r[d.index('reasn')]))	#(intm - r[d.index('t_get')])/60))
+		print 
+	print jcalls, intm	#"\n".join (lout)
+	if jcalls != ddisp.get('calls'):	ddisp['calls'] = jcalls
+	if not lout:	return
+	lout.insert(0, "<b>Новые вызова: </b>")
+	return	"\n".join (lout)
 
 def	actual_directory ():
-	print	"actual_directory"
+	print	"Движение Машин / Бригад	actual_directory"
 	global	GLOB_DIRECTORY, DTM_CODES, MAX_DTM
 	global	INN_CODES, IDS_bm_ssys
 
-	dbi = dbtools.dbtools('host=212.193.103.20 dbname=receiver port=5432 user=smirnov')
 	last_id = 0
 	bm_ssys = 2
 	dsleep = 1
 	j = 0
 	while not exit_request:
-		if IDS_bm_ssys == 0:
-			IDS_bm_ssys = 64
-		'''
-			time.sleep(11)
-			continue
-		'''
 		if last_id == 0:
-			rid = dbi.get_row ("SELECT max(id_dp) FROM vdata_pos WHERE tinn IN (SELECT inn FROM org_desc WHERE bm_ssys & %s > 0)" % IDS_bm_ssys)
+			rid = dbi.get_row ("SELECT max(id_dp) FROM vdata_pos WHERE tinn IN (SELECT inn FROM org_desc WHERE bm_ssys = %s)" % IDS_bm_ssys)
 			last_id = rid[0]
-			swhere = 'tinn IN (SELECT inn FROM org_desc WHERE bm_ssys & %s > 0)' % IDS_bm_ssys
+			swhere = 'tinn IN (SELECT inn FROM org_desc WHERE bm_ssys = %s)' % IDS_bm_ssys
 			res = dbi.get_table('vlast_pos', swhere)
 		else:
-			swhere = 'tinn IN (SELECT inn FROM org_desc WHERE bm_ssys & %s > 0) AND id_dp > %s ORDER BY t' % (IDS_bm_ssys, last_id)
+			swhere = 'tinn IN (SELECT inn FROM org_desc WHERE bm_ssys = %s) AND id_dp > %s ORDER BY t' % (IDS_bm_ssys, last_id)
 			res = dbi.get_table('vdata_pos', swhere)
-	#	print	'\tswhere:', swhere
 
-	#	res = dbi.get_table('vlast_pos', swhere)
 		tm = int(time.time())
 		jtm = tm % MAX_DTM
 		if not res:
@@ -80,6 +156,10 @@ def	actual_directory ():
 					if len (cdct['r']) > 10:	cdct['r'].pop(-1)
 					cdct['t'] = r[d.index('t')]
 					cdct['sp'] = r[d.index('sp')]
+					if r[d.index('sp')] < 1:
+						try:
+							if abs(cdct['r'][0][0] - cdct['r'][1][0]) > 0.0001 or abs(cdct['r'][0][1] - cdct['r'][1][1]) > 0.0001:	cdct['sp'] = 1
+						except:	pass
 					cdct['opts'] = "%s %s <br>" % (time.strftime("<span class='fligt sz12'>%T</span>", time.localtime (r[d.index('t')])), str_speed(r[d.index('sp')]))
 				else:
 					gosnum = r[d.index('gosnum')]
@@ -117,14 +197,78 @@ def	actual_directory ():
 		time.sleep(1)
 		'''
 		time.sleep(dsleep)
+
+def	is_legal_ip (addr = None):
+	""" Проверка принадлежности IP внутренней сети (разрешенные IP)	"""
+	print	addr
+	return	True	### DEBUG
 	
+def	get_calls (intm, request, is_start, addr):
+	global	GLOB_DCALLS
+	list_calls = []
+	y = 44.0
+	legal_ip = is_legal_ip(addr)	### Проверка принадлежности IP
+	for cnttl in GLOB_DCALLS.keys():
+		jdc = GLOB_DCALLS[cnttl].copy()
+#		if not jdc['YX']:	continue
+		dcode = {}
+		if is_start or jdc['opts'] in ['add', 'updt']:
+			if jdc['YX']:
+				dcode['p'] = jdc['YX']
+			else:
+				y += .01 
+				dcode['p'] = [56.34, y]
+			dcode['cnttl'] = cnttl
+			if legal_ip:		### Для внутренней сети (разрешенные IP)
+				ppups = ["""<div class='bfinf green line bgyellow' onclick="open_call(%s);"> %s <span class='bfligt'> %s </span></div>""" % (cnttl, cnttl, time.strftime("от: %H:%M", time.localtime (jdc['t_get'])))]
+			else:	ppups = ["<div class='bfinf'> %s <span class='bfligt'> %s </span></div>" % (cnttl, time.strftime("от: %H:%M", time.localtime (jdc['t_get'])))]
+			addr = "<div><span class='bfinf'> %s </span>" % jdc['addr']['s']
+			if jdc['addr'].get('h'):	addr += "д.<span class='bfinf'>%s</span> " % jdc['addr']['h']
+			if jdc['addr'].get('k'):	addr += "корп.<span class='bfinf'>%s</span> " % jdc['addr']['k']
+			ppups.append (addr +"</div>")
+			if jdc.get('nbrg'):
+				sbrg = "<span class='bfinf'>%s%s</span>" % (jdc.get('nbrg'), jdc.get('pbrg'))
+			else:	sbrg = "???"
+			if jdc.has_key('t_arrl'):
+				ppups.append("<div>Бригада %s прибыла в <span class='bfligt'> %s </spah></div>" % (sbrg, time.strftime("%H:%M", time.localtime (jdc['t_arrl']))))
+				img = '<span class="fa-stack fa-2x bfinf"><i class="fa fa-circle fa-stack-2x" style="opacity: 0.6"></i><i class="fa fa-medkit fa-stack-1x fa-inverse" aria-hidden="true"></i></span>'
+			elif jdc.has_key('t_send'):
+				ppups.append("<div>Передан бригаде %s в <span class='bfligt'> %s </spah></div>" % (sbrg, time.strftime("%H:%M", time.localtime (jdc['t_send']))))
+				img = '<span class="fa-stack fa-2x bfblue"><i class="fa fa-circle fa-stack-2x" style="opacity: 0.6"></i><i class="fa fa-ambulance fa-stack-1x fa-inverse" aria-hidden="true"></i></span>'
+			else:
+				img = '<span class="fa-stack fa-2x bferr"><i class="fa fa-circle fa-stack-2x" style="opacity: 0.6"></i><i class="fa fa-user fa-stack-1x fa-inverse" aria-hidden="true"></i></span>'
+			dcode['ppup'] = "\n".join(ppups)
+			dcode['html'] = '<div class="btn-group bferr"> %s </div>' % img
+			with mitex_dcalls:	GLOB_DCALLS[cnttl]['opts'] = 'view'
+			list_calls.append(dcode)
+
+	return	list_calls
+			
+
 def	str_speed (sp):
 	if sp:	return	"<span class='fligt sz12'> v:<b>%s</b>км/ч</span>" % sp
 	return 	"<span class='bferr sz12'>Стоит</span>"
 
+def	check_dcode (tm, codes):
+	list_data = []
+	for jcode in codes:
+		dcode = GLOB_DIRECTORY[jcode].copy()
+		if dcode:
+			dcode['code'] = jcode
+			if dcode.get('rem'):		dcode['opts'] = dcode['opts']+ dcode['rem']
+			if (tm - dcode['t']) > 3600:	#dcode['style'] = "color: #77a"
+				img = '<span class="fa-stack fa-lg bfligt"><i class="fa fa-circle fa-stack-2x" style="opacity: 0.4"></i><i class="fa fa-ambulance fa-stack-1x fa-inverse" aria-hidden="true"></i></span>'
+			elif dcode['sp'] < 1:
+				img = '<span class="fa-stack fa-lg bfblue"><i class="fa fa-circle fa-stack-2x" style="opacity: 0.4"></i><i class="fa fa-ambulance fa-stack-1x fa-inverse" aria-hidden="true"></i></span>'
+			else:	img = '<span class="fa-stack fa-lg bfinf"><i class="fa fa-circle fa-stack-2x" style="opacity: 0.6"></i><i class="fa fa-ambulance fa-stack-1x fa-inverse" aria-hidden="true"></i></span>'
+			dcode['html'] = '<div class="btn-group bfinf"> %s </div>' % img
+			list_data.append(dcode)
+		else:	print "NOT jcode:", jcode, dcode
+	return	list_data
+
 def	get_poss (tm, tm_old, request):
 	global	GLOB_DIRECTORY, DTM_CODES, MAX_DTM
-	global	INN_CODES, IDS_bm_ssys
+#	global	INN_CODES, IDS_bm_ssys
 #	print 'DTM_CODES', DTM_CODES
 #	if (tm-tm_old) > 1:	print	"\t", tm, "\t(tm-tm_old)", (tm-tm_old)
 
@@ -143,21 +287,8 @@ def	get_poss (tm, tm_old, request):
 		with mitex_dtmcodes:
 			DTM_CODES[jtm] = None
 		return
-#	print	"get_poss:", time.strftime("\t%T", time.localtime (tm)), jtm, inn
-	for jcode in codes[1:]:	#DTM_CODES[jtm][1:]:
-		if inn and not jcode in INN_CODES[inn]:	continue
-		dcode = None
-		with mutex_directory:
-			dcode = GLOB_DIRECTORY[jcode].copy()
-	#	dcode = GLOB_DIRECTORY.get(jcode)
-		if dcode:
-			dcode['code'] = jcode
-			if dcode.get('rem'):
-				dcode['opts'] = dcode['opts']+dcode['rem']
-			list_data.append(dcode)
-		else:
-			print "NOT jcode:", jcode, dcode
-	return	list_data
+	return	check_dcode (tm, codes[1:])
+	###
 
 def	get_all_poss (tm, request):
 	""" Подгоро	"""
@@ -168,21 +299,8 @@ def	get_all_poss (tm, request):
 		if not inn in INN_CODES.keys():		return
 	else:	inn = None
 
-	list_data = []
-	for jcode in GLOB_DIRECTORY.keys():
-		if inn and not jcode in INN_CODES[inn]:	continue
-		dcode = None
-		with mutex_directory:
-			dcode = GLOB_DIRECTORY[jcode].copy()
-	#	dcode = GLOB_DIRECTORY.get(jcode)
-		if dcode:
-			dcode['code'] = jcode
-			if dcode.get('rem'):		dcode['opts'] = dcode['opts']+dcode['rem']
-			if (tm - dcode['t']) > 3600:	dcode['style'] = "color: #77a"
-			list_data.append(dcode)
-		else:
-			print "NOT jcode:", jcode, dcode
-	return	list_data
+	return	check_dcode (tm, GLOB_DIRECTORY.keys())
+	###
 
 def parse_sform (sdate = ''):	# 'TEST=atp&view_gosnum=off&view_trace=off&view_routes=off&cod_region=&org_inn=0&bm_ssys=2&snow_stat=&snow_flag=&leaflet-base-layers=on'):
 	res = {}
@@ -281,6 +399,7 @@ def handle (s, addr):
 		intm = int(time.time())
 		tm_old = intm -1	# MAX_DTM
 		request = None
+		is_start = True
 		while True:
 			s.settimeout(1)
 			try:
@@ -302,7 +421,18 @@ def handle (s, addr):
 				print "\tSS unpdata:", unpdata['payload'], parse_sform (unpdata['payload'])
 	
 			texts = [ "~last_time|%s" % time.strftime("%T", time.localtime(intm)) ]
-			texts.append ("~events| Actual OO %s" % intm)
+	#		events = actual_events (intm, addr, request)
+	#		if events:	texts.append ("~events| %s" % events)
+			ddata = calls = events = None
+			calls = get_calls (intm, request, is_start, addr)
+			if calls:	texts.append ("~eval| get_list_calls (%s)" % json.dumps(calls))
+			### TS
+			if is_start:	###	Новое соединение
+				ddata = get_all_poss (intm, request)	### TS
+				is_start = False
+			else:
+				ddata = get_poss (intm, tm_old, request)
+			if ddata:	texts.append ("~eval| get_list_autos (%s)" % json.dumps(ddata))
 			dpack = pack_frame ("\n".join(texts), 0x1)
 			sendln = 0
 			while sendln < len(dpack):
@@ -319,6 +449,7 @@ def handle (s, addr):
 	finally:
 		s.close()
 		print 'Close', addr
+
 
 def start_server ():
 	s = socket.socket()
@@ -359,13 +490,16 @@ exit_request =	False
 
 if __name__ == "__main__": 
 	'''
+	actual_events()
 	test ()
 	actual_directory ()
 	print HEADS
 	print create_handshake (HEADS)
 	'''
 	try:
-	#	threading.Thread(target = actual_directory, args = ()).start()
+		threading.Thread(target = actual_events, args = ()).start()
+		time.sleep(1)
+		threading.Thread(target = actual_directory, args = ()).start()
 		time.sleep(2)
 		start_server()
 	except	KeyboardInterrupt:

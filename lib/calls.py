@@ -891,7 +891,7 @@ def	calls_list (SS, request):
 	#		print """<td width=240px> %s </td><td> %s </td>""" % (sfio, soms)	#r[d.index('id_ims')])
 			print """<td> %s </td>""" % soms	
 			print """<td width=270px > %s </td>""" % screm
-		print "<td width=20px> %s </td>" % cstt
+	###	print "<td width=20px> %s </td>" % cstt
 	if clist:
 		print "\n".join(clist)
 	print	"</tbody>"

@@ -77,7 +77,7 @@ def	brgs_list (SS, request):
 	if ssubst:	lwheres.append ('n_pst = %s' % ssubst)
 	if not lwheres:	lwheres.append ('br_id > 0')
 	swhere = " AND ".join(lwheres)
-	print	"SELECT * FROM %s WHERE %s ORDER BY number" % (sfrom, swhere)
+#	print	"SELECT * FROM %s WHERE %s ORDER BY number" % (sfrom, swhere)
 	sorder = "ORDER BY number, smena"
 	res = dboo.get_table(sfrom, "%s %s" % (swhere, sorder))
 	if not res:
