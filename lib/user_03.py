@@ -120,7 +120,8 @@ def	out_menu (US_ROW, request):
 		'''
 		lout.append ("""<li class="bfligt"> Доступ к НСИ: </li>""")	#str(US_ROW))
 		'''
-		lout.append ("""<li class="bfligt line" onclick="$('#wdg_bc').html(''); $('#wdg_bc').html(''); $('#calls').html(''); $('#calls').html(''); set_shadow('%s');"> &bull; %s </li>""" % ("USERS", "Сотрудники СМП"))
+		lout.append ("""<li class="bfligt line" onclick="$('#wdg_bc').html(''); $('#wdg_bc').html(''); $('#calls').html(''); $('#calls').html(''); set_shadow('%s');"> &bull; %s </li>""" % ("USERS", "Пользователи СМП"))
+		lout.append ("""<li class="bfligt line" onclick="$('#wdg_bc').html(''); $('#wdg_bc').html(''); $('#calls').html(''); $('#calls').html(''); set_shadow('%s');"> &bull; %s </li>""" % ("PERSONS", "Сотрудники СМП"))
 		lout.append ("""<li class="bfligt line" onclick="$('#wdg_bc').html(''); $('#wdg_bc').html(''); $('#calls').html(''); $('#calls').html(''); set_shadow('%s');"> &bull; %s </li>""" % ("AUTOS", "Транспорт СМП"))
 		lout.append ("""<li class="bfligt line" onclick="$('#wdg_bc').html(''); $('#wdg_bc').html(''); $('#calls').html(''); $('#calls').html(''); set_shadow('%s');"> &bull; %s </li>""" % ("POLIT", "Права и Роли "))
 	lout.append ("""<li class="bfligt line" onclick="$('#menu').html(''); document.myForm.disp.value=''; set_shadow('view_menu');"> Выход </li></div>""")
